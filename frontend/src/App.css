@@ -1,3 +1,18 @@
+/* Global full height */
+html, body{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root{
+   height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -39,4 +54,41 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+
+
+/* Content will take remaining space above footer */
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+  width: 100%;       /* full width */
+  background-color: #1a1a1a;
+}
+
+.app-content {
+  flex: 1; /* takes remaining space */
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center;     /* vertical centering */
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.registration-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* important to fill horizontal space */
 }
