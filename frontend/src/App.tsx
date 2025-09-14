@@ -9,7 +9,7 @@ const App: React.FC = () => {
     <div className="app-wrapper">
       <div className="app-content">
         <Registration />
-        <SpeakersPage />
+        {/* <SpeakersPage /> */}
       </div>
       <FooterComponent />
     </div>
