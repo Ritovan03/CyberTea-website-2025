@@ -41,18 +41,16 @@ function createCardTexture(
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Could not get 2d context");
 
-    // Card dimensions
-    const cardWidth = 320;
-    const cardHeight = 420;
-    const imageSize = 180;
-    const padding = 20;
+    const cardWidth = 350;
+    const cardHeight = 460;
+    const imageSize = 190;
+    const padding = 22;
 
     canvas.width = cardWidth;
     canvas.height = cardHeight;
 
     context.fillStyle = "#121212";
     context.fillRect(0, 0, cardWidth, cardHeight);
-
 
     context.beginPath();
     const cornerRadius = 12;
@@ -467,15 +465,13 @@ class Media {
       this.viewport = viewport;
     }
 
-    // Increased scale multiplier for bigger cards
-    this.scale = (this.screen.height / 1500) * 1.4;
+    this.scale = (this.screen.height / 1500) * 1.6;
     this.plane.scale.y =
-      (this.viewport.height * (450 * this.scale)) / this.screen.height;
+      (this.viewport.height * (480 * this.scale)) / this.screen.height;
     this.plane.scale.x =
-      (this.viewport.width * (350 * this.scale)) / this.screen.width;
+      (this.viewport.width * (380 * this.scale)) / this.screen.width;
 
-    // Increased padding between cards
-    this.padding = 1.7;
+    this.padding = 2.0;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -494,11 +490,17 @@ interface AppConfig {
   scrollSpeed?: number;
   scrollEase?: number;
   galleryId?: string;
+  autoRotate?: boolean;
+  autoRotateSpeed?: number;
 }
 
 class App {
   container: HTMLElement;
   scrollSpeed: number;
+  autoRotate: boolean = true;
+  autoRotateSpeed: number = 0.5;
+  isHovered: boolean = false;
+  autoRotateTimer: number = 0;
   scroll: {
     ease: number;
     current: number;
@@ -529,6 +531,8 @@ class App {
   boundOnTouchDown!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchMove!: (e: MouseEvent | TouchEvent) => void;
   boundOnTouchUp!: () => void;
+  boundOnMouseEnter!: (e: Event) => void;
+  boundOnMouseLeave!: (e: Event) => void;
 
   isDown: boolean = false;
   start: number = 0;
@@ -539,7 +543,7 @@ class App {
       items,
       bend = 1,
       textColor = "#ffffff",
-      bgColor = "#121212", // Matching your site's background
+      bgColor = "#121212",
       borderRadius = 0,
       nameFont = "bold 26px Arial",
       roleFont = "20px Arial",
@@ -547,6 +551,8 @@ class App {
       scrollSpeed = 2,
       scrollEase = 0.05,
       galleryId = "default",
+      autoRotate = true,
+      autoRotateSpeed = 0.5,
     }: AppConfig
   ) {
     document.documentElement.classList.remove("no-js");
@@ -554,6 +560,8 @@ class App {
     this.galleryId = galleryId;
     this.scrollSpeed = scrollSpeed;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
+    this.autoRotate = autoRotate;
+    this.autoRotateSpeed = autoRotateSpeed;
     this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
     this.createRenderer();
     this.createCamera();
@@ -660,6 +668,7 @@ class App {
 
   onTouchDown(e: MouseEvent | TouchEvent) {
     this.isDown = true;
+    this.isHovered = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
   }
@@ -673,10 +682,17 @@ class App {
 
   onTouchUp() {
     this.isDown = false;
+    setTimeout(() => {
+      if (!this.isHovered) {
+      }
+    }, 2000);
+
     this.onCheck();
   }
 
   onWheel(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
     const wheelEvent = e as WheelEvent;
     const delta =
       wheelEvent.deltaY ||
@@ -716,18 +732,34 @@ class App {
   }
 
   update() {
+    if (this.autoRotate && !this.isHovered && !this.isDown) {
+      this.autoRotateTimer += 0.016;
+      this.scroll.target += this.autoRotateSpeed * 0.02;
+    }
+
     this.scroll.current = lerp(
       this.scroll.current,
       this.scroll.target,
       this.scroll.ease
     );
+
     const direction = this.scroll.current > this.scroll.last ? "right" : "left";
+
     if (this.medias) {
       this.medias.forEach((media) => media.update(this.scroll, direction));
     }
+
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
+  }
+
+  onMouseEnter() {
+    this.isHovered = true;
+  }
+
+  onMouseLeave() {
+    this.isHovered = false;
   }
 
   addEventListeners() {
@@ -736,28 +768,63 @@ class App {
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
+    const boundOnMouseEnter = this.onMouseEnter.bind(this);
+    const boundOnMouseLeave = this.onMouseLeave.bind(this);
     window.addEventListener("resize", this.boundOnResize);
-    window.addEventListener("mousewheel", this.boundOnWheel);
-    window.addEventListener("wheel", this.boundOnWheel);
-    window.addEventListener("mousedown", this.boundOnTouchDown);
+    this.renderer.gl.canvas.addEventListener("wheel", this.boundOnWheel);
+    this.renderer.gl.canvas.addEventListener("mousewheel", this.boundOnWheel);
+    this.renderer.gl.canvas.addEventListener(
+      "mousedown",
+      this.boundOnTouchDown
+    );
+    this.renderer.gl.canvas.addEventListener(
+      "touchstart",
+      this.boundOnTouchDown
+    );
+
     window.addEventListener("mousemove", this.boundOnTouchMove);
     window.addEventListener("mouseup", this.boundOnTouchUp);
-    window.addEventListener("touchstart", this.boundOnTouchDown);
     window.addEventListener("touchmove", this.boundOnTouchMove);
     window.addEventListener("touchend", this.boundOnTouchUp);
+    this.renderer.gl.canvas.addEventListener("mouseenter", boundOnMouseEnter);
+    this.renderer.gl.canvas.addEventListener("mouseleave", boundOnMouseLeave);
+    this.boundOnMouseEnter = boundOnMouseEnter;
+    this.boundOnMouseLeave = boundOnMouseLeave;
   }
 
   destroy() {
     window.cancelAnimationFrame(this.raf);
     window.removeEventListener("resize", this.boundOnResize);
-    window.removeEventListener("mousewheel", this.boundOnWheel);
-    window.removeEventListener("wheel", this.boundOnWheel);
-    window.removeEventListener("mousedown", this.boundOnTouchDown);
+
+    if (this.renderer && this.renderer.gl && this.renderer.gl.canvas) {
+      this.renderer.gl.canvas.removeEventListener("wheel", this.boundOnWheel);
+      this.renderer.gl.canvas.removeEventListener(
+        "mousewheel",
+        this.boundOnWheel
+      );
+      this.renderer.gl.canvas.removeEventListener(
+        "mousedown",
+        this.boundOnTouchDown
+      );
+      this.renderer.gl.canvas.removeEventListener(
+        "touchstart",
+        this.boundOnTouchDown
+      );
+      this.renderer.gl.canvas.removeEventListener(
+        "mouseenter",
+        this.boundOnMouseEnter
+      );
+      this.renderer.gl.canvas.removeEventListener(
+        "mouseleave",
+        this.boundOnMouseLeave
+      );
+    }
+
     window.removeEventListener("mousemove", this.boundOnTouchMove);
     window.removeEventListener("mouseup", this.boundOnTouchUp);
-    window.removeEventListener("touchstart", this.boundOnTouchDown);
     window.removeEventListener("touchmove", this.boundOnTouchMove);
     window.removeEventListener("touchend", this.boundOnTouchUp);
+
     if (
       this.renderer &&
       this.renderer.gl &&
@@ -782,6 +849,8 @@ interface CircularGalleryProps {
   scrollSpeed?: number;
   scrollEase?: number;
   galleryId?: string;
+  autoRotate?: boolean;
+  autoRotateSpeed?: number;
 }
 
 export default function CircularGallery({
@@ -796,6 +865,8 @@ export default function CircularGallery({
   scrollSpeed = 2,
   scrollEase = 0.05,
   galleryId = "default",
+  autoRotate = true,
+  autoRotateSpeed = 1.5,
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -814,6 +885,8 @@ export default function CircularGallery({
       scrollSpeed,
       scrollEase,
       galleryId,
+      autoRotate,
+      autoRotateSpeed,
     });
 
     return () => {
@@ -831,6 +904,8 @@ export default function CircularGallery({
     scrollSpeed,
     scrollEase,
     galleryId,
+    autoRotate,
+    autoRotateSpeed,
   ]);
 
   return (
