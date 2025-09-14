@@ -10,7 +10,6 @@ export default function SyntheticV0PageForDeployment() {
   <>
   <NavbarDemo />
   <InteractiveGridPatternDemo />
-  <Registration/>
   <FooterComponent/>
   </>)
 }

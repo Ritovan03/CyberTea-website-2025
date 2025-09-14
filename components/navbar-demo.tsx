@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Download } from "lucide-react"
 
 export default function NavbarDemo() {
   return (
@@ -23,7 +24,7 @@ function FloatingNavbar() {
   const navigationLinks = [
     { id: "home", label: "HOME", href: "/" },
     { id: "speakers", label: "SPEAKERS", href: "/speakers" },
-    { id: "brochure", label: "BROCHURE", href: "/brochure" },
+    { id: "brochure", label: "BROCHURE", href: "https://www.canva.com/design/DAFv0USqSR4/X0OyIb3W2o4xWqMYWm-G4A/edit?utm_content=DAFv0USqSR4&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"},
     { id: "register", label: "REGISTER", href: "/register" },
   ]
   const pastEvents = [

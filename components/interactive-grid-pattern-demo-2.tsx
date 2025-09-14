@@ -5,27 +5,33 @@ import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pa
 import { useEffect, useState, useRef, useCallback } from "react";
 
 export function InteractiveGridPatternDemo() {
+  // Grid configuration
   const cellSize = 30;
-  const cols = 20;
-  const rows = 20;
-  const spotlightRadius = 10;
+  const cols = 40;
+  const rows = 50;
+  const spotlightRadius = 20;
 
-  const centerX = Math.floor(cols / 2); // 10
-  const centerY = Math.floor(rows / 2); // 10
+  // Center of spotlight (adjusted slightly upward for better visual balance)
+  const centerX = Math.floor(cols / 2);
+  const centerY = Math.floor(rows / 2) - 10;
 
+  // Firefly state
   const [currentPos, setCurrentPos] = useState({ x: 0, y: 0 });
-  const [targetPos, setTargetPos] = useState({ x: 0, y: 0 });
   const [fireflyOpacity, setFireflyOpacity] = useState(1);
 
+  // Mouse position tracking
   const mouseGridPosRef = useRef({ x: 0, y: 0 });
-  const animationRef = useRef<number | null>(null);
   const lastMoveDirRef = useRef<'x' | 'y' | null>(null);
 
-  // Speed config
+  // Animation timer reference — NOW INITIALIZED!
+  const animationRef = useRef<number | null>(null);
+
+  // Animation timing config
   const MIN_DELAY = 50;
   const MAX_DELAY = 300;
   const MAX_SPEED_DISTANCE = 10;
 
+  // Calculate hop delay based on distance to target
   const getHopDelay = useCallback((frogX: number, frogY: number, targetX: number, targetY: number) => {
     const dx = Math.abs(targetX - frogX);
     const dy = Math.abs(targetY - frogY);
@@ -37,6 +43,7 @@ export function InteractiveGridPatternDemo() {
     return Math.round(delay);
   }, []);
 
+  // Hop logic: move firefly toward mouse position with adaptive speed
   const hopToMouse = useCallback(() => {
     setCurrentPos((prev) => {
       const target = mouseGridPosRef.current;
@@ -47,12 +54,14 @@ export function InteractiveGridPatternDemo() {
       const dx = target.x - prev.x;
       const dy = target.y - prev.y;
 
+      // If already at target, schedule next hop
       if (dx === 0 && dy === 0) {
         const nextDelay = getHopDelay(prev.x, prev.y, target.x, target.y);
         animationRef.current = window.setTimeout(hopToMouse, nextDelay);
         return prev;
       }
 
+      // Move in direction of greatest delta; prioritize last axis if equal
       const absDx = Math.abs(dx);
       const absDy = Math.abs(dy);
 
@@ -63,6 +72,7 @@ export function InteractiveGridPatternDemo() {
         newY += dy > 0 ? 1 : -1;
         lastMoveDirRef.current = 'y';
       } else {
+        // Equal movement — prefer last direction or default to Y
         if (lastMoveDirRef.current === 'x' && dy !== 0) {
           newY += dy > 0 ? 1 : -1;
           lastMoveDirRef.current = 'y';
@@ -75,6 +85,7 @@ export function InteractiveGridPatternDemo() {
         }
       }
 
+      // Schedule next hop with dynamic delay
       const nextDelay = getHopDelay(newX, newY, target.x, target.y);
       animationRef.current = window.setTimeout(hopToMouse, nextDelay);
 
@@ -82,6 +93,7 @@ export function InteractiveGridPatternDemo() {
     });
   }, [getHopDelay]);
 
+  // Start animation loop
   useEffect(() => {
     animationRef.current = window.setTimeout(hopToMouse, 150);
     return () => {
@@ -89,7 +101,7 @@ export function InteractiveGridPatternDemo() {
     };
   }, [hopToMouse]);
 
-  // Fade firefly based on distance from center
+  // Fade firefly based on distance from center (spotlight effect)
   useEffect(() => {
     const dx = currentPos.x - centerX;
     const dy = currentPos.y - centerY;
@@ -102,25 +114,22 @@ export function InteractiveGridPatternDemo() {
     setFireflyOpacity(opacity);
   }, [currentPos, centerX, centerY, spotlightRadius]);
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const mouseX = e.clientX - rect.left;
-      const mouseY = e.clientY - rect.top;
+  // Handle mouse movement to update target grid position
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
 
-      const gridX = Math.floor(mouseX / cellSize);
-      const gridY = Math.floor(mouseY / cellSize);
+    const gridX = Math.floor(mouseX / cellSize);
+    const gridY = Math.floor(mouseY / cellSize);
 
-      const clampedX = Math.max(0, Math.min(cols - 1, gridX));
-      const clampedY = Math.max(0, Math.min(rows - 1, gridY));
+    const clampedX = Math.max(0, Math.min(cols - 1, gridX));
+    const clampedY = Math.max(0, Math.min(rows - 1, gridY));
 
-      mouseGridPosRef.current = { x: clampedX, y: clampedY };
-      setTargetPos({ x: clampedX, y: clampedY });
-    },
-    [cellSize, cols, rows]
-  );
+    mouseGridPosRef.current = { x: clampedX, y: clampedY };
+  }, [cellSize, cols, rows]);
 
-  // ✅ BOLDER, BRIGHTER, LARGER FIREFLY — 30x30px, fills cell
+  // Firefly SVG Icon — Bold, bright, full-cell design (30x30px)
   const FireflyIcon = () => (
     <svg
       width="30"
@@ -182,10 +191,10 @@ export function InteractiveGridPatternDemo() {
     </svg>
   );
 
-  // ✅ Position: exactly fill cell (30x30)
+  // Firefly positioning style — fills entire grid cell exactly
   const fireflyStyle = {
     position: "absolute" as const,
-    left: `${currentPos.x * cellSize}px`, // No padding — fills cell
+    left: `${currentPos.x * cellSize}px`,
     top: `${currentPos.y * cellSize}px`,
     pointerEvents: "none",
     zIndex: 25,
@@ -203,28 +212,36 @@ export function InteractiveGridPatternDemo() {
         minHeight: "100vh",
       }}
     >
-      {/* Hero Section */}
+      {/* Hero Section — Contains interactive grid and firefly */}
       <div
         className="relative w-full overflow-hidden"
-        style={{
-          height: "70vh",
-        }}
+        style={{ height: "70vh" }}
       >
         <div
           className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center"
           onMouseMove={handleMouseMove}
           style={{ cursor: "default" }}
         >
+          {/* Grid container with dual mask: radial spotlight + vertical fade */}
           <div
             style={{
               width: gridSize,
               height: gridSize,
               position: "relative",
-              maskImage: `radial-gradient(circle ${spotlightRadius * cellSize}px at ${centerX * cellSize}px ${centerY * cellSize}px, white, transparent)`,
-              WebkitMaskImage: `radial-gradient(circle ${spotlightRadius * cellSize}px at ${centerX * cellSize}px ${centerY * cellSize}px, white, transparent)`,
+              // Combined mask: spotlight circle + vertical fade from bottom
+              maskImage: `
+                radial-gradient(circle ${spotlightRadius * cellSize}px at ${centerX * cellSize}px ${centerY * cellSize}px, white, transparent),
+                linear-gradient(to bottom, white 40%, transparent 100%)
+              `,
+              WebkitMaskImage: `
+                radial-gradient(circle ${spotlightRadius * cellSize}px at ${centerX * cellSize}px ${centerY * cellSize}px, white, transparent),
+                linear-gradient(to bottom, white 40%, transparent 100%)
+              `,
+              maskComposite: "intersect",
+              WebkitMaskComposite: "intersect",
             }}
           >
-            {/* Grid — brighter strokes */}
+            {/* Interactive Grid Pattern — only visible within masked area */}
             <InteractiveGridPattern
               width={cellSize}
               height={cellSize}
@@ -236,7 +253,7 @@ export function InteractiveGridPatternDemo() {
               squaresClassName="hover:fill-white/5"
             />
 
-            {/* CyberTea 3.0 Overlay */}
+            {/* CyberTea 3.0 Overlay — remains fully visible outside mask */}
             <div
               style={{
                 position: "absolute",
@@ -271,7 +288,7 @@ export function InteractiveGridPatternDemo() {
               </p>
             </div>
 
-            {/* ✅ BOLD, BRIGHT, FULL-CELL FIREFLY */}
+            {/* Firefly — positioned absolutely, unaffected by grid mask */}
             <div style={fireflyStyle}>
               <FireflyIcon />
             </div>
@@ -279,7 +296,7 @@ export function InteractiveGridPatternDemo() {
         </div>
       </div>
 
-      {/* Content Below */}
+      {/* Content Below — Unaffected by masks */}
       <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 text-center">
         <h2 className="mb-4 text-2xl font-bold">Event Details</h2>
         <p className="text-gray-300">
