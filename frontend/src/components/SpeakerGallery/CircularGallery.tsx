@@ -321,43 +321,43 @@ class Media {
       depthTest: false,
       depthWrite: false,
       vertex: `
-        precision highp float;
-        attribute vec3 position;
-        attribute vec2 uv;
-        uniform mat4 modelViewMatrix;
-        uniform mat4 projectionMatrix;
-        uniform float uTime;
-        uniform float uSpeed;
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          vec3 p = position;
-          p.z = (sin(p.x * 4.0 + uTime) * 1.5 + cos(p.y * 2.0 + uTime) * 1.5) * (0.1 + uSpeed * 0.5);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
-        }
-      `,
+      precision highp float;
+      attribute vec3 position;
+      attribute vec2 uv;
+      uniform mat4 modelViewMatrix;
+      uniform mat4 projectionMatrix;
+      uniform float uTime;
+      uniform float uSpeed;
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        vec3 p = position;
+        p.z = 0.0;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+      }
+    `,
       fragment: `
-        precision highp float;
-        uniform sampler2D tMap;
-        uniform float uBorderRadius;
-        varying vec2 vUv;
+      precision highp float;
+      uniform sampler2D tMap;
+      uniform float uBorderRadius;
+      varying vec2 vUv;
+      
+      float roundedBoxSDF(vec2 p, vec2 b, float r) {
+        vec2 d = abs(p) - b;
+        return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
+      }
+      
+      void main() {
+        vec4 color = texture2D(tMap, vUv);
         
-        float roundedBoxSDF(vec2 p, vec2 b, float r) {
-          vec2 d = abs(p) - b;
-          return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
-        }
+        float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
         
-        void main() {
-          vec4 color = texture2D(tMap, vUv);
-          
-          float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
-          
-          float edgeSmooth = 0.002;
-          float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
-          
-          gl_FragColor = vec4(color.rgb, alpha);
-        }
-      `,
+        float edgeSmooth = 0.002;
+        float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
+        
+        gl_FragColor = vec4(color.rgb, alpha);
+      }
+    `,
       uniforms: {
         tMap: { value: null },
         uSpeed: { value: 0 },
