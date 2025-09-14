@@ -17,15 +17,6 @@
   display: none;
 }
 
-.circular-gallery-container:hover {
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
-  cursor: grab;
-}
-
-.circular-gallery-container:active {
-  cursor: grabbing;
-}
-
 .circular-gallery-container::before {
   content: '';
   position: absolute;
