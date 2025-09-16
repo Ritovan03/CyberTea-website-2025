@@ -133,8 +133,13 @@ import {
   TableHead,
   TableRow,
   Paper,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Registration.css";
 
 const Registration: React.FC = () => {
@@ -142,7 +147,14 @@ const Registration: React.FC = () => {
 
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
-    alert(`${label} copied to clipboard!`);
+    toast.success(`${label} copied to clipboard!`, {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   return (
@@ -296,21 +308,59 @@ const Registration: React.FC = () => {
                   <p>
                     <b>Account Number:</b>{" "}
                     <span
-                      className="clickable"
-                      onClick={() =>
-                        handleCopy("110167505687", "Account Number")
-                      }
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                      }}
                     >
-                      110167505687 (Click to Copy)
+                      110167505687
+                      <Tooltip title="Copy Account Number">
+                        <IconButton
+                          size="small"
+                          onClick={() =>
+                            handleCopy("110167505687", "Account Number")
+                          }
+                          sx={{
+                            color: "rgba(255,255,255,0.6)",
+                            padding: "4px",
+                            "&:hover": {
+                              color: "rgba(255,255,255,0.9)",
+                              backgroundColor: "rgba(255,255,255,0.1)",
+                            },
+                          }}
+                        >
+                          <ContentCopyIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
                     </span>
                   </p>
                   <p>
                     <b>IFSC Code:</b>{" "}
                     <span
-                      className="clickable"
-                      onClick={() => handleCopy("CNRB0013427", "IFSC Code")}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                      }}
                     >
-                      CNRB0013427 (Click to Copy)
+                      CNRB0013427
+                      <Tooltip title="Copy IFSC Code">
+                        <IconButton
+                          size="small"
+                          onClick={() => handleCopy("CNRB0013427", "IFSC Code")}
+                          sx={{
+                            color: "rgba(255,255,255,0.6)",
+                            padding: "4px",
+                            "&:hover": {
+                              color: "rgba(255,255,255,0.9)",
+                              backgroundColor: "rgba(255,255,255,0.1)",
+                            },
+                          }}
+                        >
+                          <ContentCopyIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
                     </span>
                   </p>
                   <p>
@@ -343,51 +393,146 @@ const Registration: React.FC = () => {
           </div>
 
           {/* Sponsors */}
-          <div style={{ marginBottom: "3rem" }}>
-            <Typography variant="h6" gutterBottom>
-              Sponsors
+          <div style={{ marginBottom: "4rem" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="center"
+              sx={{ marginBottom: "2rem" }}
+            >
+              Our Sponsors
             </Typography>
             <div
               style={{
-                display: "flex",
-                gap: "2rem",
-                flexWrap: "wrap",
-                marginTop: "1rem",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
+                gap: "3rem",
+                alignItems: "center",
+                justifyItems: "center",
+                padding: "2rem",
+                background: "rgba(255,255,255,0.02)",
+                borderRadius: "12px",
+                border: "1px solid rgba(255,255,255,0.1)",
               }}
             >
               <img
                 src="/Sponsors/Picture1.png"
-                alt="Sponsor 1"
-                style={{ height: "70px" }}
+                alt="Ministry of Electronics and Information Technology"
+                style={{
+                  height: "80px",
+                  width: "auto",
+                  filter: "brightness(1.1)",
+                  transition: "transform 0.3s ease, filter 0.3s ease",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.filter = "brightness(1.3)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.filter = "brightness(1.1)";
+                }}
               />
               <img
                 src="/Sponsors/Picture2.png"
-                alt="Sponsor 2"
-                style={{ height: "70px" }}
+                alt="ISEA"
+                style={{
+                  height: "80px",
+                  width: "auto",
+                  filter: "brightness(1.1)",
+                  transition: "transform 0.3s ease, filter 0.3s ease",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.filter = "brightness(1.3)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.filter = "brightness(1.1)";
+                }}
               />
               <img
                 src="/Sponsors/Picture3.png"
-                alt="Sponsor 3"
-                style={{ height: "70px" }}
+                alt="IIT Sponsor"
+                style={{
+                  height: "80px",
+                  width: "auto",
+                  filter: "brightness(1.1)",
+                  transition: "transform 0.3s ease, filter 0.3s ease",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.filter = "brightness(1.3)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.filter = "brightness(1.1)";
+                }}
               />
               <img
                 src="/Sponsors/Picture4.png"
-                alt="Sponsor 4"
-                style={{ height: "70px" }}
+                alt="Cystar"
+                style={{
+                  height: "80px",
+                  width: "auto",
+                  filter: "brightness(1.1)",
+                  transition: "transform 0.3s ease, filter 0.3s ease",
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.filter = "brightness(1.3)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.filter = "brightness(1.1)";
+                }}
               />
             </div>
           </div>
 
-          <Typography
-            variant="body2"
-            align="center"
-            sx={{ opacity: 0.7, marginTop: "3rem", lineHeight: 2 }}
+          {/* Certificate Notice */}
+          <div
+            style={{
+              textAlign: "center",
+              padding: "2rem",
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
+              borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.1)",
+              marginTop: "2rem",
+            }}
           >
-            Certificates and workshop material will be provided to registered
-            participants.
-          </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                opacity: 0.9,
+                lineHeight: 1.8,
+                fontSize: "1.1rem",
+                fontWeight: 500,
+                background: "linear-gradient(135deg, #ffffff 0%, #cccccc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              🎓 Certificates and comprehensive workshop materials will be
+              provided to all registered participants
+            </Typography>
+          </div>
         </CardContent>
       </Card>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 };

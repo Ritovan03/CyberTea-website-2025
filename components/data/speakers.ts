@@ -8,6 +8,7 @@ export const speakersData: Speaker[] = [
     affiliation: "IIIT Sri City",
     image: "/Speakers/director.jpeg",
     category: "chief-patron",
+    linkedinUrl: "https://linkedin.com/in/mahadeva-prasanna",
   },
   // Workshop Conveners
   {
@@ -16,6 +17,7 @@ export const speakersData: Speaker[] = [
     affiliation: "IIIT Sri City",
     image: "/Speakers/neha_maam.jpeg",
     category: "workshop-conveners",
+    linkedinUrl: "https://linkedin.com/in/neha-agrawal",
   },
   // Speakers
   {
@@ -24,6 +26,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Queen's University, UK",
     image: "/Speakers/Aditya.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/aditya-japa",
   },
   {
     name: "Mr. Avakash Kathiririya",
@@ -31,6 +34,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Cyware India",
     image: "/Speakers/CHester.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/avakash-kathiririya",
   },
   {
     name: "Dr. Batakrishna Tripathy",
@@ -38,6 +42,7 @@ export const speakersData: Speaker[] = [
     affiliation: "National Informatics Centre",
     image: "/Speakers/Chinmaaya.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/batakrishna-tripathy",
   },
   {
     name: "Mr. Chinmay Mishra",
@@ -45,6 +50,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Independent Consultant",
     image: "/Speakers/Chndra.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/chinmay-mishra",
   },
   {
     name: "Dr. Deepak Kumar",
@@ -52,6 +58,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Government Agency",
     image: "/Speakers/Durga.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/deepak-kumar",
   },
   {
     name: "Mr. Irshadh Abdul Rasheed",
@@ -59,6 +66,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Cybersecurity Firm",
     image: "/Speakers/Gaurav.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/irshadh-abdul-rasheed",
   },
   {
     name: "Mr. Krishna Sastry Pendyala",
@@ -66,6 +74,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Ernst & Young Global Limited",
     image: "/Speakers/John.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/krishna-sastry-pendyala",
   },
   {
     name: "Ms. Malini Rao",
@@ -73,6 +82,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Technology Company",
     image: "/Speakers/KrishnaSastry.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/malini-rao",
   },
   {
     name: "Dr. Neetesh Saxena",
@@ -80,6 +90,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Research Institute",
     image: "/Speakers/Maitra.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/neetesh-saxena",
   },
   {
     name: "Mr. Padmalochan Bera",
@@ -87,6 +98,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Security Firm",
     image: "/Speakers/Mazumdar.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/padmalochan-bera",
   },
   {
     name: "Mr. Rajesh Kumar Dilli",
@@ -94,6 +106,7 @@ export const speakersData: Speaker[] = [
     affiliation: "IT Security Company",
     image: "/Speakers/MuttuKrishnan.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/rajesh-kumar-dilli",
   },
   {
     name: "Mr. Ravi",
@@ -101,6 +114,7 @@ export const speakersData: Speaker[] = [
     affiliation: "Tech Corporation",
     image: "/Speakers/Nikhil.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/ravi-tech",
   },
   {
     name: "Dr. Saumya Bhadauria",
@@ -108,6 +122,7 @@ export const speakersData: Speaker[] = [
     affiliation: "ABV-IIITM Gwalior",
     image: "/Speakers/Rajat.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/saumya-bhadauria",
   },
   {
     name: "Prof. Somanath Tripathy",
@@ -115,6 +130,7 @@ export const speakersData: Speaker[] = [
     affiliation: "IIT Patna",
     image: "/Speakers/Tapaswi.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/somanath-tripathy",
   },
   {
     name: "Mr. Ujval Bucha",
@@ -122,5 +138,6 @@ export const speakersData: Speaker[] = [
     affiliation: "Product Company",
     image: "/Speakers/Thilagam.png",
     category: "speakers",
+    linkedinUrl: "https://linkedin.com/in/ujval-bucha",
   },
 ];

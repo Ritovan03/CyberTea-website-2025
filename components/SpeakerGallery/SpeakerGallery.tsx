@@ -86,6 +86,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
         role: speaker.role,
         affiliation: speaker.affiliation || " ",
         image: speaker.image,
+        linkedinUrl: speaker.linkedinUrl || "",
       }))
     : [];
 
@@ -93,21 +94,9 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
     <div
       className="px-5 min-h-screen text-white" // Changed text-black/87 to text-white for overall dark theme
       style={{
-        background:
-          "linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 60%, #1a1a1a 100%)",
+        background: "#1a1a1a",
       }}
     >
-      <h2
-        className="text-center text-4xl mb-10 font-bold" // Added font-bold and removed black/95
-        style={{
-          background: "linear-gradient(135deg, #ffffff 0%, #cccccc 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        Speakers
-      </h2>
-
       {/* Chief Patron Section */}
       {hasChiefPatron && (
         <div className="mb-16">
@@ -137,11 +126,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
               >
                 <div
                   className="w-32 h-32 rounded-full overflow-hidden mb-5 relative
-                               shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]
-                               before:content-[''] before:absolute before:inset-0 before:rounded-full before:p-[2px]
-                               before:bg-gradient-to-br before:from-white/80 before:to-white/40 // Subtle white-to-light-grey gradient
-                               before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
-                               before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]"
+                               shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]"
                 >
                   <img
                     src={speaker.image}
@@ -180,6 +165,24 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
                     </p>
                   )}
                 </div>
+
+                {/* LinkedIn Icon */}
+                {speaker.linkedinUrl && (
+                  <a
+                    href={speaker.linkedinUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-4 right-4 p-2 bg-blue-600/20 hover:bg-blue-600/40 rounded-full transition-all duration-200 group/linkedin transform hover:scale-110"
+                  >
+                    <svg
+                      className="w-4 h-4 text-blue-400 group-hover/linkedin:text-blue-300"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
+                  </a>
+                )}
               </div>
             ))}
           </div>
@@ -212,11 +215,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
             >
               <div
                 className="w-32 h-32 rounded-full overflow-hidden mb-5 relative
-                               shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]
-                               before:content-[''] before:absolute before:inset-0 before:rounded-full before:p-[2px]
-                               before:bg-gradient-to-br before:from-white/80 before:to-white/40 // Subtle white-to-light-grey gradient
-                               before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
-                               before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]"
+                               shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]"
               >
                 <img
                   src={workshopConvener?.image} // Use optional chaining
@@ -255,6 +254,24 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
                   </p>
                 )}
               </div>
+
+              {/* LinkedIn Icon */}
+              {workshopConvener?.linkedinUrl && (
+                <a
+                  href={workshopConvener.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="absolute bottom-4 right-4 p-2 bg-blue-600/20 hover:bg-blue-600/40 rounded-full transition-all duration-200 group/linkedin transform hover:scale-110"
+                >
+                  <svg
+                    className="w-4 h-4 text-blue-400 group-hover/linkedin:text-blue-300"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                </a>
+              )}
             </div>
           </div>
         </div>

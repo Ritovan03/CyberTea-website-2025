@@ -18,8 +18,9 @@ interface ScheduleDay {
   events: ScheduleItem[];
 }
 
-// Sample schedule data - you can replace this with your actual data
-const defaultScheduleData: ScheduleDay[] = [
+// Sample schedule data - commented out for reference
+/*
+const sampleScheduleData: ScheduleDay[] = [
   {
     date: "December 10, 2025",
     dayLabel: "Day 1",
@@ -128,6 +129,76 @@ const defaultScheduleData: ScheduleDay[] = [
     ],
   },
 ];
+*/
+
+// Actual schedule data - To be announced soon!
+const defaultScheduleData: ScheduleDay[] = [
+  {
+    date: "December 10, 2025",
+    dayLabel: "Day 1",
+    events: [
+      {
+        time: "TBA",
+        title: "To be announced soon!",
+        description:
+          "Detailed schedule with exciting sessions, workshops, and keynotes will be announced soon. Stay tuned for updates!",
+        speaker: "Various Expert Speakers",
+      },
+    ],
+  },
+  {
+    date: "December 11, 2025",
+    dayLabel: "Day 2",
+    events: [
+      {
+        time: "TBA",
+        title: "To be announced soon!",
+        description:
+          "Detailed schedule with exciting sessions, workshops, and keynotes will be announced soon. Stay tuned for updates!",
+        speaker: "Various Expert Speakers",
+      },
+    ],
+  },
+  {
+    date: "December 12, 2025",
+    dayLabel: "Day 3",
+    events: [
+      {
+        time: "TBA",
+        title: "To be announced soon!",
+        description:
+          "Detailed schedule with exciting sessions, workshops, and keynotes will be announced soon. Stay tuned for updates!",
+        speaker: "Various Expert Speakers",
+      },
+    ],
+  },
+  {
+    date: "December 13, 2025",
+    dayLabel: "Day 4",
+    events: [
+      {
+        time: "TBA",
+        title: "To be announced soon!",
+        description:
+          "Detailed schedule with exciting sessions, workshops, and keynotes will be announced soon. Stay tuned for updates!",
+        speaker: "Various Expert Speakers",
+      },
+    ],
+  },
+  {
+    date: "December 14, 2025",
+    dayLabel: "Day 5",
+    events: [
+      {
+        time: "TBA",
+        title: "To be announced soon!",
+        description:
+          "Detailed schedule with exciting sessions, workshops, and keynotes will be announced soon. Stay tuned for updates!",
+        speaker: "Various Expert Speakers",
+      },
+    ],
+  },
+];
 
 interface EventScheduleProps {
   scheduleData?: ScheduleDay[];
@@ -140,8 +211,7 @@ export default function EventSchedule({
     <section
       className="relative w-full overflow-hidden text-white py-20"
       style={{
-        background:
-          "linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 60%, #1a1a1a 100%)",
+        background: "#1a1a1a",
       }}
     >
       <div className="relative z-10 mx-auto max-w-4xl px-6">

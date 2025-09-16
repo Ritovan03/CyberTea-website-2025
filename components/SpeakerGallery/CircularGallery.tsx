@@ -33,7 +33,8 @@ function createCardTexture(
   bgColor: string,
   nameFont: string = "bold 26px Arial",
   roleFont: string = "20px Arial",
-  affiliationFont: string = "16px Arial"
+  affiliationFont: string = "16px Arial",
+  linkedinUrl?: string
 ): Promise<{ texture: Texture; width: number; height: number }> {
   return new Promise((resolve) => {
     const canvas = document.createElement("canvas");
@@ -70,15 +71,22 @@ function createCardTexture(
     context.closePath();
     context.clip();
 
+    // Enhanced card background with subtle gradient and better border
     const gradient = context.createLinearGradient(0, 0, 0, cardHeight);
-    gradient.addColorStop(0, "#1a1a1a");
-    gradient.addColorStop(1, "#0a0a0a");
+    gradient.addColorStop(0, "#1f1f1f");
+    gradient.addColorStop(1, "#0f0f0f");
     context.fillStyle = gradient;
     context.fillRect(0, 0, cardWidth, cardHeight);
 
-    context.strokeStyle = "rgba(255, 255, 255, 0.1)";
-    context.lineWidth = 1;
-    context.strokeRect(0, 0, cardWidth, cardHeight);
+    // Enhanced border with subtle glow
+    context.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    context.lineWidth = 2;
+    context.strokeRect(1, 1, cardWidth - 2, cardHeight - 2);
+
+    // Inner subtle glow
+    context.strokeStyle = "rgba(255, 255, 255, 0.05)";
+    context.lineWidth = 4;
+    context.strokeRect(2, 2, cardWidth - 4, cardHeight - 4);
 
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -166,6 +174,48 @@ function createCardTexture(
         context.fillText(line, centerX, affiliationY + index * 22);
       });
 
+      // Draw LinkedIn icon if URL is provided
+      if (linkedinUrl) {
+        const iconSize = 36;
+        const iconX = cardWidth - iconSize - 18;
+        const iconY = cardHeight - iconSize - 18;
+
+        // Background circle with subtle styling to match dark theme
+        context.fillStyle = "rgba(255, 255, 255, 0.08)";
+        context.beginPath();
+        context.arc(
+          iconX + iconSize / 2,
+          iconY + iconSize / 2,
+          iconSize / 2 + 2,
+          0,
+          Math.PI * 2
+        );
+        context.fill();
+
+        // Border for the circle
+        context.strokeStyle = "rgba(255, 255, 255, 0.2)";
+        context.lineWidth = 1;
+        context.stroke();
+
+        // Draw official LinkedIn logo using SVG path
+        const scale = iconSize / 24; // Scale to fit our icon size
+        const offsetX = iconX + (iconSize - 24 * scale) / 2;
+        const offsetY = iconY + (iconSize - 24 * scale) / 2;
+
+        context.fillStyle = "#ffffff";
+        context.save();
+        context.translate(offsetX, offsetY);
+        context.scale(scale, scale);
+
+        // Official LinkedIn logo path
+        const path = new Path2D(
+          "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+        );
+        context.fill(path);
+
+        context.restore();
+      }
+
       const texture = new Texture(gl, { generateMipmaps: false });
       texture.image = canvas;
       resolve({ texture, width: cardWidth, height: cardHeight });
@@ -226,6 +276,7 @@ interface MediaProps {
   nameFont?: string;
   roleFont?: string;
   affiliationFont?: string;
+  linkedinUrl?: string;
 }
 
 class Media {
@@ -249,6 +300,7 @@ class Media {
   nameFont?: string;
   roleFont?: string;
   affiliationFont?: string;
+  linkedinUrl?: string;
   program!: Program;
   plane!: Mesh;
   scale!: number;
@@ -281,6 +333,7 @@ class Media {
     nameFont,
     roleFont,
     affiliationFont,
+    linkedinUrl,
   }: MediaProps) {
     this.geometry = geometry;
     this.gl = gl;
@@ -301,6 +354,7 @@ class Media {
     this.nameFont = nameFont;
     this.roleFont = roleFont;
     this.affiliationFont = affiliationFont;
+    this.linkedinUrl = linkedinUrl;
     this.createShader();
     this.createMesh(
       name,
@@ -311,7 +365,8 @@ class Media {
       bgColor,
       nameFont,
       roleFont,
-      affiliationFont
+      affiliationFont,
+      linkedinUrl
     );
   }
 
@@ -376,7 +431,8 @@ class Media {
     bgColor: string,
     nameFont?: string,
     roleFont?: string,
-    affiliationFont?: string
+    affiliationFont?: string,
+    linkedinUrl?: string
   ) {
     try {
       const { texture } = await createCardTexture(
@@ -389,7 +445,8 @@ class Media {
         bgColor,
         nameFont,
         roleFont,
-        affiliationFont
+        affiliationFont,
+        linkedinUrl
       );
 
       this.program.uniforms.tMap.value = texture;
@@ -461,7 +518,13 @@ class Media {
 }
 
 interface AppConfig {
-  items?: { name: string; role: string; affiliation: string; image: string }[];
+  items?: {
+    name: string;
+    role: string;
+    affiliation: string;
+    image: string;
+    linkedinUrl?: string;
+  }[];
   bend?: number;
   textColor?: string;
   bgColor?: string;
@@ -502,6 +565,7 @@ class App {
     role: string;
     affiliation: string;
     image: string;
+    linkedinUrl?: string;
   }[] = [];
   screen!: { width: number; height: number };
   viewport!: { width: number; height: number };
@@ -594,7 +658,13 @@ class App {
 
   createMedias(
     items:
-      | { name: string; role: string; affiliation: string; image: string }[]
+      | {
+          name: string;
+          role: string;
+          affiliation: string;
+          image: string;
+          linkedinUrl?: string;
+        }[]
       | undefined,
     bend: number = 1,
     textColor: string,
@@ -642,6 +712,7 @@ class App {
         nameFont,
         roleFont,
         affiliationFont,
+        linkedinUrl: data.linkedinUrl,
       });
 
       this.medias.push(media);
@@ -649,10 +720,39 @@ class App {
   }
 
   onTouchDown(e: MouseEvent | TouchEvent) {
+    // Check if the interaction is within the card area
+    const rect = this.renderer.gl.canvas.getBoundingClientRect();
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    const mouseX = clientX - rect.left;
+    const mouseY = clientY - rect.top;
+
+    // Define the card interaction area
+    const cardAreaTop = rect.height * 0.1;
+    const cardAreaBottom = rect.height * 0.9;
+    const cardAreaLeft = rect.width * 0.1;
+    const cardAreaRight = rect.width * 0.9;
+
+    const isInCardArea =
+      mouseX >= cardAreaLeft &&
+      mouseX <= cardAreaRight &&
+      mouseY >= cardAreaTop &&
+      mouseY <= cardAreaBottom;
+
+    if (!isInCardArea) return;
+
+    // Check if click is on LinkedIn icon area
+    const linkedinIconClicked = this.checkLinkedInIconClick(mouseX, mouseY);
+    if (linkedinIconClicked) {
+      e.preventDefault();
+      e.stopPropagation();
+      return; // Don't start dragging if LinkedIn icon was clicked
+    }
+
     this.isDown = true;
     this.isHovered = true;
     this.scroll.position = this.scroll.current;
-    this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+    this.start = clientX;
 
     // Add move and up listeners only when actively dragging
     window.addEventListener("mousemove", this.boundOnTouchMove, {
@@ -663,6 +763,71 @@ class App {
       passive: false,
     });
     window.addEventListener("touchend", this.boundOnTouchUp);
+  }
+
+  checkLinkedInIconClick(mouseX: number, mouseY: number): boolean {
+    if (!this.medias || this.medias.length === 0) return false;
+
+    const canvasRect = this.renderer.gl.canvas.getBoundingClientRect();
+
+    // Check all visible cards, not just the center one
+    for (let i = 0; i < this.medias.length; i++) {
+      const media = this.medias[i];
+      const mediaData = this.mediasItems[i % this.mediasItems.length];
+
+      if (!media.isInitialized || !media.plane || !mediaData?.linkedinUrl)
+        continue;
+
+      // Calculate card position on screen
+      const cardScreenX =
+        canvasRect.width / 2 +
+        media.plane.position.x * (canvasRect.width / this.viewport.width);
+      const cardScreenY =
+        canvasRect.height / 2 +
+        media.plane.position.y * (canvasRect.height / this.viewport.height);
+
+      const cardWidth =
+        media.plane.scale.x * (canvasRect.width / this.viewport.width);
+      const cardHeight =
+        media.plane.scale.y * (canvasRect.height / this.viewport.height);
+
+      // Check if this card is visible (at least partially on screen)
+      const cardLeft = cardScreenX - cardWidth / 2;
+      const cardRight = cardScreenX + cardWidth / 2;
+      const isCardVisible = cardRight > 0 && cardLeft < canvasRect.width;
+
+      if (!isCardVisible) continue;
+
+      // Calculate LinkedIn icon position for this specific card
+      const iconSize = 36 * media.scale;
+      const iconScreenSize =
+        iconSize * (canvasRect.width / this.viewport.width);
+      const iconX =
+        cardScreenX +
+        cardWidth / 2 -
+        iconScreenSize -
+        18 * media.scale * (canvasRect.width / this.viewport.width);
+      const iconY =
+        cardScreenY +
+        cardHeight / 2 -
+        iconScreenSize -
+        18 * media.scale * (canvasRect.height / this.viewport.height);
+
+      // Check if click is within this card's icon area
+      const isInIconArea =
+        mouseX >= iconX &&
+        mouseX <= iconX + iconScreenSize &&
+        mouseY >= iconY &&
+        mouseY <= iconY + iconScreenSize;
+
+      if (isInIconArea) {
+        // Open LinkedIn profile in new tab
+        window.open(mediaData.linkedinUrl, "_blank", "noopener,noreferrer");
+        return true;
+      }
+    }
+
+    return false;
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
@@ -694,7 +859,25 @@ class App {
 
   onWheel(e: Event) {
     // Only prevent default if user is actively scrolling horizontally or interacting with carousel
-    if (this.isHovered) {
+    // and the mouse is within the card area (center region)
+    const rect = this.renderer.gl.canvas.getBoundingClientRect();
+    const mouseEvent = e as WheelEvent;
+    const mouseX = mouseEvent.clientX - rect.left;
+    const mouseY = mouseEvent.clientY - rect.top;
+
+    // Define the card interaction area (center region where cards are visible)
+    const cardAreaTop = rect.height * 0.1; // 10% from top
+    const cardAreaBottom = rect.height * 0.9; // 90% from top
+    const cardAreaLeft = rect.width * 0.1; // 10% from left
+    const cardAreaRight = rect.width * 0.9; // 90% from left
+
+    const isInCardArea =
+      mouseX >= cardAreaLeft &&
+      mouseX <= cardAreaRight &&
+      mouseY >= cardAreaTop &&
+      mouseY <= cardAreaBottom;
+
+    if (this.isHovered && isInCardArea) {
       e.preventDefault();
       e.stopPropagation();
       const wheelEvent = e as WheelEvent;
@@ -777,6 +960,7 @@ class App {
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     const boundOnMouseEnter = this.onMouseEnter.bind(this);
     const boundOnMouseLeave = this.onMouseLeave.bind(this);
+    const boundOnMouseMove = this.onMouseMove.bind(this);
 
     window.addEventListener("resize", this.boundOnResize);
 
@@ -796,6 +980,9 @@ class App {
       { passive: true }
     );
 
+    // Mouse move for cursor changes
+    this.renderer.gl.canvas.addEventListener("mousemove", boundOnMouseMove);
+
     // Only add move listeners to window when actively dragging
     // These will be added/removed dynamically in onTouchDown/onTouchUp
     this.boundOnTouchMove = this.onTouchMove.bind(this);
@@ -806,6 +993,84 @@ class App {
     this.renderer.gl.canvas.addEventListener("mouseleave", boundOnMouseLeave);
     this.boundOnMouseEnter = boundOnMouseEnter;
     this.boundOnMouseLeave = boundOnMouseLeave;
+  }
+
+  onMouseMove(e: MouseEvent) {
+    const rect = this.renderer.gl.canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    // Check if hovering over LinkedIn icon
+    const isOverLinkedIn = this.checkLinkedInIconHover(mouseX, mouseY);
+
+    if (isOverLinkedIn) {
+      this.renderer.gl.canvas.style.cursor = "pointer";
+    } else {
+      this.renderer.gl.canvas.style.cursor = "grab";
+    }
+  }
+
+  checkLinkedInIconHover(mouseX: number, mouseY: number): boolean {
+    if (!this.medias || this.medias.length === 0) return false;
+
+    const canvasRect = this.renderer.gl.canvas.getBoundingClientRect();
+
+    // Check all visible cards for hover
+    for (let i = 0; i < this.medias.length; i++) {
+      const media = this.medias[i];
+      const mediaData = this.mediasItems[i % this.mediasItems.length];
+
+      if (!media.isInitialized || !media.plane || !mediaData?.linkedinUrl)
+        continue;
+
+      // Calculate card position on screen
+      const cardScreenX =
+        canvasRect.width / 2 +
+        media.plane.position.x * (canvasRect.width / this.viewport.width);
+      const cardScreenY =
+        canvasRect.height / 2 +
+        media.plane.position.y * (canvasRect.height / this.viewport.height);
+
+      const cardWidth =
+        media.plane.scale.x * (canvasRect.width / this.viewport.width);
+      const cardHeight =
+        media.plane.scale.y * (canvasRect.height / this.viewport.height);
+
+      // Check if this card is visible (at least partially on screen)
+      const cardLeft = cardScreenX - cardWidth / 2;
+      const cardRight = cardScreenX + cardWidth / 2;
+      const isCardVisible = cardRight > 0 && cardLeft < canvasRect.width;
+
+      if (!isCardVisible) continue;
+
+      // Calculate LinkedIn icon position for this specific card
+      const iconSize = 36 * media.scale;
+      const iconScreenSize =
+        iconSize * (canvasRect.width / this.viewport.width);
+      const iconX =
+        cardScreenX +
+        cardWidth / 2 -
+        iconScreenSize -
+        18 * media.scale * (canvasRect.width / this.viewport.width);
+      const iconY =
+        cardScreenY +
+        cardHeight / 2 -
+        iconScreenSize -
+        18 * media.scale * (canvasRect.height / this.viewport.height);
+
+      // Check if hover is within this card's icon area
+      const isInIconArea =
+        mouseX >= iconX &&
+        mouseX <= iconX + iconScreenSize &&
+        mouseY >= iconY &&
+        mouseY <= iconY + iconScreenSize;
+
+      if (isInIconArea) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   destroy() {
@@ -821,6 +1086,10 @@ class App {
       this.renderer.gl.canvas.removeEventListener(
         "touchstart",
         this.boundOnTouchDown
+      );
+      this.renderer.gl.canvas.removeEventListener(
+        "mousemove",
+        this.onMouseMove.bind(this)
       );
       this.renderer.gl.canvas.removeEventListener(
         "mouseenter",
@@ -851,7 +1120,13 @@ class App {
 }
 
 interface CircularGalleryProps {
-  items?: { name: string; role: string; affiliation: string; image: string }[];
+  items?: {
+    name: string;
+    role: string;
+    affiliation: string;
+    image: string;
+    linkedinUrl?: string;
+  }[];
   bend?: number;
   textColor?: string;
   bgColor?: string;
@@ -1017,14 +1292,11 @@ export default function CircularGallery({
 
   return (
     <div
-      className="w-full h-[650px] overflow-x-auto overflow-y-hidden relative rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.8)] cursor-grab
-                 hover:shadow-[0_8px_40px_rgba(0,0,0,0.9)] hover:cursor-grab active:cursor-grabbing
-                 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
-                 before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:pointer-events-none before:z-[1] before:rounded-2xl
-                 after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-[rgba(255,255,255,0)] after:via-[rgba(255,255,255,0.1)] after:to-[rgba(255,255,255,0)]"
+      className="w-full h-[650px] overflow-hidden relative cursor-grab
+                 hover:cursor-grab active:cursor-grabbing
+                 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
       style={{
-        background:
-          "linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 60%, #1a1a1a 100%)",
+        background: "transparent",
       }}
       data-gallery-id={galleryId}
       ref={containerRef}

@@ -4,6 +4,7 @@ export interface Speaker {
   affiliation?: string;
   image: string;
   category: string;
+  linkedinUrl?: string;
 }
 
 export interface SpeakerCategory {
