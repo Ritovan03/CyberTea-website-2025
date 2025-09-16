@@ -8,7 +8,6 @@ import {
   Transform,
 } from "ogl";
 import { useEffect, useRef } from "react";
-import "./CircularGallery.css";
 
 type GL = Renderer["gl"];
 
@@ -873,6 +872,92 @@ export default function CircularGallery({
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Add styles for elements that can't be fully converted to Tailwind
+    const style = document.createElement("style");
+    style.textContent = `
+      .circular-gallery-track {
+        display: flex;
+        height: 100%;
+        padding: 0;
+        align-items: center;
+        gap: 50px;
+        position: relative;
+        z-index: 2;
+        justify-content: center;
+        width: max-content;
+        min-width: 100%;
+      }
+
+      .speaker-card {
+        flex: 0 0 auto;
+        width: 320px;
+        height: 420px;
+        background: #121212;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        position: relative;
+        z-index: 2;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .speaker-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(80, 120, 255, 0.2);
+        border: 1px solid rgba(80, 120, 255, 0.3);
+      }
+
+      .card-image-container {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+        margin-top: 30px;
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .speaker-card:hover .card-image {
+        transform: scale(1.08);
+      }
+
+      .card-content {
+        margin-top: 25px;
+        padding: 0 20px;
+        position: relative;
+      }
+
+      .card-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0 0 12px 0;
+        color: rgba(255, 255, 255, 0.95);
+      }
+
+      .card-role {
+        font-size: 18px;
+        color: rgba(80, 120, 255, 0.9);
+        margin: 0 0 12px 0;
+        font-weight: 600;
+      }
+
+      .card-affiliation {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0;
+        font-style: italic;
+      }
+    `;
+    document.head.appendChild(style);
+
     const app = new App(containerRef.current, {
       items,
       bend,
@@ -891,6 +976,10 @@ export default function CircularGallery({
 
     return () => {
       app.destroy();
+      // Clean up the style element
+      if (style.parentNode) {
+        style.parentNode.removeChild(style);
+      }
     };
   }, [
     items,
@@ -910,7 +999,15 @@ export default function CircularGallery({
 
   return (
     <div
-      className="circular-gallery-container"
+      className="w-full h-[550px] overflow-x-auto overflow-y-hidden relative rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] cursor-grab
+                 hover:shadow-[0_8px_40px_rgba(0,0,0,0.7)] hover:cursor-grab active:cursor-grabbing
+                 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
+                 before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:pointer-events-none before:z-[1] before:rounded-2xl
+                 after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-[rgba(80,120,255,0)] after:via-[rgba(80,120,255,0.3)] after:to-[rgba(80,120,255,0)]"
+      style={{
+        background:
+          "linear-gradient(to bottom, #0a0a0a 0%, #0a0a0a 60%, #0a0a0a 100%)",
+      }}
       data-gallery-id={galleryId}
       ref={containerRef}
     />

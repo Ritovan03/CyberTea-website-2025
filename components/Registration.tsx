@@ -1,4 +1,3 @@
-
 // import React from "react";
 // import "./Registration.css";
 
@@ -119,8 +118,6 @@
 //   );
 // };
 
-
-
 import React, { useState } from "react";
 import {
   Card,
@@ -184,7 +181,7 @@ const Registration: React.FC = () => {
               <p>
                 <b>Step 2:</b> Complete the{" "}
                 <a
-                  href="https://forms.gle/example"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSc_RpBfMXomoUBskPUemzBSMitZ_-LJKhjHt1rcr59XtvKjfQ/viewform"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="clickable"
@@ -287,7 +284,7 @@ const Registration: React.FC = () => {
                 }}
               >
                 <img
-                  src="/assets/qr.jpeg"
+                  src="/qr.jpeg"
                   alt="QR Code"
                   style={{ width: "200px", borderRadius: "8px" }}
                 />
@@ -300,7 +297,9 @@ const Registration: React.FC = () => {
                     <b>Account Number:</b>{" "}
                     <span
                       className="clickable"
-                      onClick={() => handleCopy("110167505687", "Account Number")}
+                      onClick={() =>
+                        handleCopy("110167505687", "Account Number")
+                      }
                     >
                       110167505687 (Click to Copy)
                     </span>
@@ -389,5 +388,3 @@ const Registration: React.FC = () => {
 };
 
 export default Registration;
-
-
