@@ -300,18 +300,22 @@ const Registration: React.FC = () => {
                     <b>Account Number:</b>{" "}
                     <span
                       className="clickable"
-                      onClick={() => handleCopy("110167505687", "Account Number")}
+                      onClick={() =>
+                        handleCopy("110167505687", "Account Number")
+                      }
                     >
-                      110167505687 (Click to Copy)
+                      110167506587 (Click to Copy)
                     </span>
                   </p>
                   <p>
                     <b>IFSC Code:</b>{" "}
                     <span
                       className="clickable"
-                      onClick={() => handleCopy("CNRB0013427", "IFSC Code")}
+                      onClick={() =>
+                        handleCopy("CNRB0013427", "IFSC Code")
+                      }
                     >
-                      CNRB0013427 (Click to Copy)
+                      CNRB0013247 (Click to Copy)
                     </span>
                   </p>
                   <p>
@@ -357,18 +361,23 @@ const Registration: React.FC = () => {
               }}
             >
               <img
-                src="/assets/sponsor1.png"
+                src="/assets/mst.png"
                 alt="Sponsor 1"
                 style={{ height: "70px" }}
               />
               <img
-                src="/assets/sponsor2.png"
+                src="/assets/isea.png"
                 alt="Sponsor 2"
                 style={{ height: "70px" }}
               />
               <img
-                src="/assets/sponsor3.png"
+                src="/assets/iitm.png"
                 alt="Sponsor 3"
+                style={{ height: "70px" }}
+              />
+              <img
+                src="/assets/cystar.png"
+                alt="Sponsor 4"
                 style={{ height: "70px" }}
               />
             </div>
@@ -389,5 +398,3 @@ const Registration: React.FC = () => {
 };
 
 export default Registration;
-
-
