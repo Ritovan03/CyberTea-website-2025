@@ -355,7 +355,7 @@ export function InteractiveGridPatternDemo() {
             <div className="subtle-button-wrapper relative z-0 bg-white/15 overflow-hidden p-0.5 flex items-center justify-center rounded-full hover:scale-105 transition duration-300 active:scale-100 pointer-events-auto mb-5 inline-block">
               <button className="relative z-10 flex items-center gap-2 rounded-full bg-black/50 backdrop-blur-sm px-5 py-2 text-xs font-medium text-white/80">
                 <span className="inline-block h-2 w-2 rounded-full bg-green-500"></span>
-                Mar 29 - Apr 12, 2025 • Virtual
+                Dec 10 - Dec 14, 2025 • Virtual
               </button>
             </div>
 
@@ -415,13 +415,6 @@ export function InteractiveGridPatternDemo() {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-4xl px-6 py-16 text-center">
-        <h2 className="mb-4 text-2xl font-bold">Event Details</h2>
-        <p className="text-gray-300">
-          Dates: <span className="font-medium text-white">TBA</span>
-        </p>
       </div>
     </div>
   );

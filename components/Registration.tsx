@@ -284,7 +284,7 @@ const Registration: React.FC = () => {
                 }}
               >
                 <img
-                  src="/qr.jpeg"
+                  src="/qr.png"
                   alt="QR Code"
                   style={{ width: "200px", borderRadius: "8px" }}
                 />
@@ -356,18 +356,23 @@ const Registration: React.FC = () => {
               }}
             >
               <img
-                src="/assets/sponsor1.png"
+                src="/Sponsors/Picture1.png"
                 alt="Sponsor 1"
                 style={{ height: "70px" }}
               />
               <img
-                src="/assets/sponsor2.png"
+                src="/Sponsors/Picture2.png"
                 alt="Sponsor 2"
                 style={{ height: "70px" }}
               />
               <img
-                src="/assets/sponsor3.png"
+                src="/Sponsors/Picture3.png"
                 alt="Sponsor 3"
+                style={{ height: "70px" }}
+              />
+              <img
+                src="/Sponsors/Picture4.png"
+                alt="Sponsor 4"
                 style={{ height: "70px" }}
               />
             </div>

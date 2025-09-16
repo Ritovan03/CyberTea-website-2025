@@ -40,19 +40,19 @@ function createCardTexture(
     const context = canvas.getContext("2d");
     if (!context) throw new Error("Could not get 2d context");
 
-    const cardWidth = 350;
-    const cardHeight = 460;
-    const imageSize = 190;
-    const padding = 22;
+    const cardWidth = 420;
+    const cardHeight = 560;
+    const imageSize = 220;
+    const padding = 28;
 
     canvas.width = cardWidth;
     canvas.height = cardHeight;
 
-    context.fillStyle = "#121212";
+    context.fillStyle = "#0a0a0a";
     context.fillRect(0, 0, cardWidth, cardHeight);
 
     context.beginPath();
-    const cornerRadius = 12;
+    const cornerRadius = 16;
     context.moveTo(cornerRadius, 0);
     context.lineTo(cardWidth - cornerRadius, 0);
     context.quadraticCurveTo(cardWidth, 0, cardWidth, cornerRadius);
@@ -72,11 +72,11 @@ function createCardTexture(
 
     const gradient = context.createLinearGradient(0, 0, 0, cardHeight);
     gradient.addColorStop(0, "#1a1a1a");
-    gradient.addColorStop(1, "#121212");
+    gradient.addColorStop(1, "#0a0a0a");
     context.fillStyle = gradient;
     context.fillRect(0, 0, cardWidth, cardHeight);
 
-    context.strokeStyle = "rgba(255, 255, 255, 0.08)";
+    context.strokeStyle = "rgba(255, 255, 255, 0.1)";
     context.lineWidth = 1;
     context.strokeRect(0, 0, cardWidth, cardHeight);
 
@@ -98,19 +98,19 @@ function createCardTexture(
         imageSize / 2 - 5,
         centerX,
         imageY,
-        imageSize / 2 + 15
+        imageSize / 2 + 20
       );
-      glowGradient.addColorStop(0, "rgba(80, 120, 255, 0)");
-      glowGradient.addColorStop(1, "rgba(80, 120, 255, 0.15)");
+      glowGradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+      glowGradient.addColorStop(1, "rgba(255, 255, 255, 0.08)");
 
       context.fillStyle = glowGradient;
       context.beginPath();
-      context.arc(centerX, imageY, imageSize / 2 + 15, 0, Math.PI * 2);
+      context.arc(centerX, imageY, imageSize / 2 + 20, 0, Math.PI * 2);
       context.fill();
 
       context.beginPath();
       context.arc(centerX, imageY, imageSize / 2 + 2, 0, Math.PI * 2);
-      context.strokeStyle = "rgba(80, 120, 255, 0.4)";
+      context.strokeStyle = "rgba(255, 255, 255, 0.2)";
       context.lineWidth = 1;
       context.stroke();
 
@@ -129,7 +129,7 @@ function createCardTexture(
       );
       context.restore();
 
-      const textY = imageY + imageSize / 2 + 25;
+      const textY = imageY + imageSize / 2 + 30;
 
       context.font = nameFont;
       context.fillStyle = "rgba(255, 255, 255, 0.95)";
@@ -138,32 +138,32 @@ function createCardTexture(
 
       const maxWidth = cardWidth - padding * 2;
       const nameLines = wrapText(context, name, maxWidth);
-      const nameY = textY + 5;
+      const nameY = textY + 8;
 
       nameLines.forEach((line, index) => {
-        context.fillText(line, centerX, nameY + index * 30);
+        context.fillText(line, centerX, nameY + index * 34);
       });
 
       context.font = roleFont;
-      context.fillStyle = "rgba(80, 120, 255, 0.9)";
+      context.fillStyle = "rgba(255, 255, 255, 0.7)";
       context.textAlign = "center";
 
       const roleLines = wrapText(context, role, maxWidth);
-      const roleY = nameY + nameLines.length * 30 + 15;
+      const roleY = nameY + nameLines.length * 34 + 18;
 
       roleLines.forEach((line, index) => {
-        context.fillText(line, centerX, roleY + index * 24);
+        context.fillText(line, centerX, roleY + index * 26);
       });
 
       context.font = affiliationFont;
-      context.fillStyle = "rgba(255, 255, 255, 0.6)";
+      context.fillStyle = "rgba(255, 255, 255, 0.5)";
       context.textAlign = "center";
 
       const affiliationLines = wrapText(context, affiliation, maxWidth);
-      const affiliationY = roleY + roleLines.length * 24 + 10;
+      const affiliationY = roleY + roleLines.length * 26 + 12;
 
       affiliationLines.forEach((line, index) => {
-        context.fillText(line, centerX, affiliationY + index * 20);
+        context.fillText(line, centerX, affiliationY + index * 22);
       });
 
       const texture = new Texture(gl, { generateMipmaps: false });
@@ -414,26 +414,9 @@ class Media {
 
     this.plane.position.x = this.x - scroll.current - this.extra;
 
-    const x = this.plane.position.x;
-    const H = this.viewport.width / 2;
-
-    if (this.bend === 0) {
-      this.plane.position.y = 0;
-      this.plane.rotation.z = 0;
-    } else {
-      const B_abs = Math.abs(this.bend);
-      const R = (H * H + B_abs * B_abs) / (2 * B_abs);
-      const effectiveX = Math.min(Math.abs(x), H);
-
-      const arc = R - Math.sqrt(R * R - effectiveX * effectiveX);
-      if (this.bend > 0) {
-        this.plane.position.y = -arc;
-        this.plane.rotation.z = -Math.sign(x) * Math.asin(effectiveX / R);
-      } else {
-        this.plane.position.y = arc;
-        this.plane.rotation.z = Math.sign(x) * Math.asin(effectiveX / R);
-      }
-    }
+    // For normal carousel, keep cards flat (no bending effect)
+    this.plane.position.y = 0;
+    this.plane.rotation.z = 0;
 
     this.speed = scroll.current - scroll.last;
     this.program.uniforms.uTime.value += 0.04;
@@ -464,13 +447,13 @@ class Media {
       this.viewport = viewport;
     }
 
-    this.scale = (this.screen.height / 1500) * 1.6;
+    this.scale = (this.screen.height / 1500) * 1.8;
     this.plane.scale.y =
-      (this.viewport.height * (480 * this.scale)) / this.screen.height;
+      (this.viewport.height * (560 * this.scale)) / this.screen.height;
     this.plane.scale.x =
-      (this.viewport.width * (380 * this.scale)) / this.screen.width;
+      (this.viewport.width * (420 * this.scale)) / this.screen.width;
 
-    this.padding = 2.0;
+    this.padding = 1.5; // Slightly reduced padding for tighter layout
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -540,18 +523,18 @@ class App {
     container: HTMLElement,
     {
       items,
-      bend = 1,
+      bend = 0, // Default to 0 for flat carousel
       textColor = "#ffffff",
-      bgColor = "#121212",
-      borderRadius = 0,
-      nameFont = "bold 26px Arial",
-      roleFont = "20px Arial",
-      affiliationFont = "16px Arial",
-      scrollSpeed = 2,
-      scrollEase = 0.05,
+      bgColor = "#0a0a0a", // Updated default
+      borderRadius = 0.08, // Updated default
+      nameFont = "bold 30px system-ui, -apple-system, sans-serif", // Updated default
+      roleFont = "22px system-ui, -apple-system, sans-serif", // Updated default
+      affiliationFont = "18px system-ui, -apple-system, sans-serif", // Updated default
+      scrollSpeed = 1, // Slower default speed
+      scrollEase = 0.08, // Smoother easing
       galleryId = "default",
       autoRotate = true,
-      autoRotateSpeed = 0.5,
+      autoRotateSpeed = 0.8, // Slower auto-rotate
     }: AppConfig
   ) {
     document.documentElement.classList.remove("no-js");
@@ -670,19 +653,39 @@ class App {
     this.isHovered = true;
     this.scroll.position = this.scroll.current;
     this.start = "touches" in e ? e.touches[0].clientX : e.clientX;
+
+    // Add move and up listeners only when actively dragging
+    window.addEventListener("mousemove", this.boundOnTouchMove, {
+      passive: false,
+    });
+    window.addEventListener("mouseup", this.boundOnTouchUp);
+    window.addEventListener("touchmove", this.boundOnTouchMove, {
+      passive: false,
+    });
+    window.addEventListener("touchend", this.boundOnTouchUp);
   }
 
   onTouchMove(e: MouseEvent | TouchEvent) {
     if (!this.isDown) return;
+    e.preventDefault(); // Only prevent default when actively dragging
     const x = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+    // Reduced touch sensitivity for smoother movement
+    const distance = (this.start - x) * (this.scrollSpeed * 0.02);
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
 
   onTouchUp() {
     this.isDown = false;
+
+    // Remove move and up listeners when done dragging
+    window.removeEventListener("mousemove", this.boundOnTouchMove);
+    window.removeEventListener("mouseup", this.boundOnTouchUp);
+    window.removeEventListener("touchmove", this.boundOnTouchMove);
+    window.removeEventListener("touchend", this.boundOnTouchUp);
+
     setTimeout(() => {
       if (!this.isHovered) {
+        // Auto-resume logic if needed
       }
     }, 2000);
 
@@ -690,16 +693,20 @@ class App {
   }
 
   onWheel(e: Event) {
-    e.preventDefault();
-    e.stopPropagation();
-    const wheelEvent = e as WheelEvent;
-    const delta =
-      wheelEvent.deltaY ||
-      (wheelEvent as any).wheelDelta ||
-      (wheelEvent as any).detail;
-    this.scroll.target +=
-      (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.2;
-    this.onCheckDebounce();
+    // Only prevent default if user is actively scrolling horizontally or interacting with carousel
+    if (this.isHovered) {
+      e.preventDefault();
+      e.stopPropagation();
+      const wheelEvent = e as WheelEvent;
+      const delta =
+        wheelEvent.deltaY ||
+        (wheelEvent as any).wheelDelta ||
+        (wheelEvent as any).detail;
+      // Reduced wheel sensitivity for smoother scrolling
+      this.scroll.target +=
+        (delta > 0 ? this.scrollSpeed : -this.scrollSpeed) * 0.15;
+      this.onCheckDebounce();
+    }
   }
 
   onCheck() {
@@ -731,9 +738,10 @@ class App {
   }
 
   update() {
+    // Continuous slow movement for normal carousel
     if (this.autoRotate && !this.isHovered && !this.isDown) {
       this.autoRotateTimer += 0.016;
-      this.scroll.target += this.autoRotateSpeed * 0.02;
+      this.scroll.target += this.autoRotateSpeed * 0.015; // Slower continuous movement
     }
 
     this.scroll.current = lerp(
@@ -769,22 +777,31 @@ class App {
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     const boundOnMouseEnter = this.onMouseEnter.bind(this);
     const boundOnMouseLeave = this.onMouseLeave.bind(this);
+
     window.addEventListener("resize", this.boundOnResize);
-    this.renderer.gl.canvas.addEventListener("wheel", this.boundOnWheel);
-    this.renderer.gl.canvas.addEventListener("mousewheel", this.boundOnWheel);
+
+    // Add wheel event only to canvas, not window
+    this.renderer.gl.canvas.addEventListener("wheel", this.boundOnWheel, {
+      passive: false,
+    });
+
+    // Touch/mouse events for carousel interaction
     this.renderer.gl.canvas.addEventListener(
       "mousedown",
       this.boundOnTouchDown
     );
     this.renderer.gl.canvas.addEventListener(
       "touchstart",
-      this.boundOnTouchDown
+      this.boundOnTouchDown,
+      { passive: true }
     );
 
-    window.addEventListener("mousemove", this.boundOnTouchMove);
-    window.addEventListener("mouseup", this.boundOnTouchUp);
-    window.addEventListener("touchmove", this.boundOnTouchMove);
-    window.addEventListener("touchend", this.boundOnTouchUp);
+    // Only add move listeners to window when actively dragging
+    // These will be added/removed dynamically in onTouchDown/onTouchUp
+    this.boundOnTouchMove = this.onTouchMove.bind(this);
+    this.boundOnTouchUp = this.onTouchUp.bind(this);
+
+    // Hover events for auto-rotation control
     this.renderer.gl.canvas.addEventListener("mouseenter", boundOnMouseEnter);
     this.renderer.gl.canvas.addEventListener("mouseleave", boundOnMouseLeave);
     this.boundOnMouseEnter = boundOnMouseEnter;
@@ -797,10 +814,6 @@ class App {
 
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas) {
       this.renderer.gl.canvas.removeEventListener("wheel", this.boundOnWheel);
-      this.renderer.gl.canvas.removeEventListener(
-        "mousewheel",
-        this.boundOnWheel
-      );
       this.renderer.gl.canvas.removeEventListener(
         "mousedown",
         this.boundOnTouchDown
@@ -819,6 +832,7 @@ class App {
       );
     }
 
+    // Clean up any remaining window listeners
     window.removeEventListener("mousemove", this.boundOnTouchMove);
     window.removeEventListener("mouseup", this.boundOnTouchUp);
     window.removeEventListener("touchmove", this.boundOnTouchMove);
@@ -854,18 +868,18 @@ interface CircularGalleryProps {
 
 export default function CircularGallery({
   items,
-  bend = 2.5,
+  bend = 0, // Set to 0 for flat carousel
   textColor = "#ffffff",
-  bgColor = "#121212",
-  borderRadius = 0.05,
-  nameFont = "bold 26px Arial",
-  roleFont = "20px Arial",
-  affiliationFont = "16px Arial",
-  scrollSpeed = 2,
-  scrollEase = 0.05,
+  bgColor = "#0a0a0a",
+  borderRadius = 0.08,
+  nameFont = "bold 30px system-ui, -apple-system, sans-serif",
+  roleFont = "22px system-ui, -apple-system, sans-serif",
+  affiliationFont = "18px system-ui, -apple-system, sans-serif",
+  scrollSpeed = 1, // Slower speed for smoother movement
+  scrollEase = 0.08, // Smoother easing
   galleryId = "default",
   autoRotate = true,
-  autoRotateSpeed = 1.5,
+  autoRotateSpeed = 0.8, // Slower auto-rotate speed
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -880,42 +894,43 @@ export default function CircularGallery({
         height: 100%;
         padding: 0;
         align-items: center;
-        gap: 50px;
+        gap: 40px;
         position: relative;
         z-index: 2;
-        justify-content: center;
+        justify-content: flex-start;
         width: max-content;
         min-width: 100%;
       }
 
       .speaker-card {
         flex: 0 0 auto;
-        width: 320px;
-        height: 420px;
-        background: #121212;
-        border-radius: 12px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        width: 420px;
+        height: 560px;
+        background: linear-gradient(to bottom, #1a1a1a 0%, #0a0a0a 100%);
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         position: relative;
         z-index: 2;
         overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .speaker-card:hover {
         transform: translateY(-10px) scale(1.02);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(80, 120, 255, 0.2);
-        border: 1px solid rgba(80, 120, 255, 0.3);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
       }
 
       .card-image-container {
-        width: 180px;
-        height: 180px;
+        width: 220px;
+        height: 220px;
         margin: 0 auto;
-        margin-top: 30px;
+        margin-top: 35px;
         position: relative;
         border-radius: 50%;
         overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
 
       .card-image {
@@ -930,30 +945,33 @@ export default function CircularGallery({
       }
 
       .card-content {
-        margin-top: 25px;
-        padding: 0 20px;
+        margin-top: 30px;
+        padding: 0 28px;
         position: relative;
       }
 
       .card-name {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
-        margin: 0 0 12px 0;
+        margin: 0 0 15px 0;
         color: rgba(255, 255, 255, 0.95);
+        font-family: system-ui, -apple-system, sans-serif;
       }
 
       .card-role {
-        font-size: 18px;
-        color: rgba(80, 120, 255, 0.9);
-        margin: 0 0 12px 0;
-        font-weight: 600;
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.7);
+        margin: 0 0 15px 0;
+        font-weight: 500;
+        font-family: system-ui, -apple-system, sans-serif;
       }
 
       .card-affiliation {
-        font-size: 16px;
-        color: rgba(255, 255, 255, 0.6);
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.5);
         margin: 0;
         font-style: italic;
+        font-family: system-ui, -apple-system, sans-serif;
       }
     `;
     document.head.appendChild(style);
@@ -999,14 +1017,14 @@ export default function CircularGallery({
 
   return (
     <div
-      className="w-full h-[550px] overflow-x-auto overflow-y-hidden relative rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.5)] cursor-grab
-                 hover:shadow-[0_8px_40px_rgba(0,0,0,0.7)] hover:cursor-grab active:cursor-grabbing
+      className="w-full h-[650px] overflow-x-auto overflow-y-hidden relative rounded-2xl shadow-[0_4px_30px_rgba(0,0,0,0.8)] cursor-grab
+                 hover:shadow-[0_8px_40px_rgba(0,0,0,0.9)] hover:cursor-grab active:cursor-grabbing
                  [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
                  before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:bottom-0 before:pointer-events-none before:z-[1] before:rounded-2xl
-                 after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-[rgba(80,120,255,0)] after:via-[rgba(80,120,255,0.3)] after:to-[rgba(80,120,255,0)]"
+                 after:content-[''] after:absolute after:top-0 after:left-0 after:right-0 after:h-px after:bg-gradient-to-r after:from-[rgba(255,255,255,0)] after:via-[rgba(255,255,255,0.1)] after:to-[rgba(255,255,255,0)]"
       style={{
         background:
-          "linear-gradient(to bottom, #0a0a0a 0%, #0a0a0a 60%, #0a0a0a 100%)",
+          "linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 60%, #1a1a1a 100%)",
       }}
       data-gallery-id={galleryId}
       ref={containerRef}
