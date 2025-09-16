@@ -11,6 +11,17 @@ export function InteractiveGridPatternDemo() {
   const rows = 50;
   const spotlightRadius = 20;
 
+  // Smooth scroll function for navigation
+  const handleSmoothScroll = (targetId: string) => {
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   // Center of spotlight (adjusted slightly upward for better visual balance)
   const centerX = Math.floor(cols / 2);
   const centerY = Math.floor(rows / 2) - 10;
@@ -393,7 +404,10 @@ export function InteractiveGridPatternDemo() {
 
             {/* Action Buttons */}
             <div className="pointer-events-auto mt-8 flex flex-col gap-4 sm:flex-row sm:gap-6">
-              <button className="flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-medium text-black transition-all duration-200 hover:bg-gray-100 hover:scale-105 active:scale-95">
+              <button
+                onClick={() => handleSmoothScroll("registration")}
+                className="flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-medium text-black transition-all duration-200 hover:bg-gray-100 hover:scale-105 active:scale-95"
+              >
                 Register Now
                 <svg
                   width="16"
@@ -409,7 +423,10 @@ export function InteractiveGridPatternDemo() {
                   <path d="M12 5l7 7-7 7" />
                 </svg>
               </button>
-              <button className="rounded-full border border-white/30 bg-black/50 px-8 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/10 hover:scale-105 active:scale-95">
+              <button
+                onClick={() => handleSmoothScroll("schedule")}
+                className="rounded-full border border-white/30 bg-black/50 px-8 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/10 hover:scale-105 active:scale-95"
+              >
                 View Schedule
               </button>
             </div>

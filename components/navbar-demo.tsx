@@ -31,9 +31,25 @@ function FloatingNavbar() {
     document.body.removeChild(link);
   };
 
+  // Smooth scroll function for navigation
+  const handleSmoothScroll = (href: string, linkId: string) => {
+    if (href.startsWith("#")) {
+      const targetId = href.substring(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+        setActiveLink(linkId);
+      }
+    }
+  };
+
   const navigationLinks = [
-    { id: "home", label: "HOME", href: "/" },
-    { id: "speakers", label: "SPEAKERS", href: "/speakers" },
+    { id: "home", label: "HOME", href: "#home" },
+    { id: "schedule", label: "SCHEDULE", href: "#schedule" },
+    { id: "speakers", label: "SPEAKERS", href: "#speakers" },
     {
       id: "brochure",
       label: "BROCHURE",
@@ -41,7 +57,7 @@ function FloatingNavbar() {
       isDownload: true,
       onClick: handleBrochureDownload,
     },
-    { id: "register", label: "REGISTER", href: "/register" },
+    { id: "register", label: "REGISTER", href: "#registration" },
   ];
 
   const pastEvents = [
@@ -258,13 +274,12 @@ function FloatingNavbar() {
                           {/* <Download className="w-3.5 h-3.5 opacity-70 group-hover:opacity-100 transition-opacity" /> */}
                         </button>
                       ) : (
-                        <a
-                          href={link.href}
-                          onClick={() => setActiveLink(link.id)}
+                        <button
+                          onClick={() => handleSmoothScroll(link.href, link.id)}
                           className="text-white/90 hover:text-white text-sm font-medium tracking-wide transition-colors duration-150 py-2 px-2 relative"
                         >
                           {link.label}
-                        </a>
+                        </button>
                       )}
                     </motion.div>
                   ))}
@@ -340,16 +355,15 @@ function FloatingNavbar() {
                         {/* <Download className="w-3.5 h-3.5 opacity-70" /> */}
                       </button>
                     ) : (
-                      <a
-                        href={link.href}
+                      <button
                         onClick={() => {
-                          setActiveLink(link.id);
+                          handleSmoothScroll(link.href, link.id);
                           setIsMobileMenuOpen(false);
                         }}
-                        className="text-white/90 hover:text-white text-sm font-medium tracking-wide transition-colors duration-150 py-2.5 px-3.5 block rounded-lg"
+                        className="text-white/90 hover:text-white text-sm font-medium tracking-wide transition-colors duration-150 py-2.5 px-3.5 rounded-lg w-full text-left"
                       >
                         {link.label}
-                      </a>
+                      </button>
                     )}
                   </motion.div>
                 ))}

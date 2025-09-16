@@ -13,11 +13,21 @@ export default function SyntheticV0PageForDeployment() {
   return (
     <>
       <NavbarDemo />
-      <InteractiveGridPatternDemo />
-      <EventSchedule />
-      <SpeakerGallery speakers={speakersData} />
-      <Registration />
-      <Team />
+      <div id="home">
+        <InteractiveGridPatternDemo />
+      </div>
+      <div id="schedule">
+        <EventSchedule />
+      </div>
+      <div id="speakers">
+        <SpeakerGallery speakers={speakersData} />
+      </div>
+      <div id="registration">
+        <Registration />
+      </div>
+      <div id="team">
+        <Team />
+      </div>
       <FooterComponent />
     </>
   );
