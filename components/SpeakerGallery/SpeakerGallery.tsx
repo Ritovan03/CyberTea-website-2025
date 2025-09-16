@@ -8,27 +8,26 @@ interface SpeakerGalleryProps {
 }
 
 const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
-  // Add custom styles that can't be converted to Tailwind
+  // Add custom styles for the pulse effect and mobile adjustments
   React.useEffect(() => {
     const style = document.createElement("style");
     style.textContent = `
       @keyframes pulse-subtle {
-        0% {
+        0%, 100% {
           box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         50% {
           box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2),
-            0 0 20px rgba(80, 120, 255, 0.2);
-        }
-        100% {
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2);
+                      0 0 20px rgba(255, 255, 255, 0.15); /* Subtle white glow */
         }
       }
 
       .speaker-card-hover:hover {
         animation: pulse-subtle 2s infinite;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(80, 120, 255, 0.15) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 255, 255, 0.1) !important; /* Consistent hover shadow */
       }
+
+      /* No specific filter on the image itself, the 'before' element handles the border */
 
       @media (max-width: 768px) {
         .speaker-gallery-mobile .gallery-title {
@@ -92,14 +91,14 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
 
   return (
     <div
-      className="px-5 min-h-screen text-black/87"
+      className="px-5 min-h-screen text-white" // Changed text-black/87 to text-white for overall dark theme
       style={{
         background:
           "linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 60%, #1a1a1a 100%)",
       }}
     >
       <h2
-        className="text-center text-4xl mb-10 text-black/95"
+        className="text-center text-4xl mb-10 font-bold" // Added font-bold and removed black/95
         style={{
           background: "linear-gradient(135deg, #ffffff 0%, #cccccc 100%)",
           WebkitBackgroundClip: "text",
@@ -111,34 +110,38 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
 
       {/* Chief Patron Section */}
       {hasChiefPatron && (
-        <div className="mb-15">
-          <h3 className="text-3xl mb-5 text-white/90 text-center">
+        <div className="mb-16">
+          {" "}
+          {/* Increased margin bottom */}
+          <h3 className="text-3xl mb-8 text-white/90 text-center font-semibold">
+            {" "}
+            {/* Added font-semibold */}
             Chief Patron
           </h3>
           <div className="flex gap-10 justify-center flex-wrap max-w-4xl mx-auto p-5">
             {chiefPatronSpeakers.map((speaker) => (
               <div
                 key={speaker.name}
-                className="speaker-card-hover relative w-full max-w-[260px] p-6 pb-4 flex flex-col items-center rounded-2xl overflow-hidden border border-white/8 
-                              transition-all duration-[0.4s] ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
-                              hover:transform hover:-translate-y-2 hover:border-blue-400/30
-                              after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] 
-                              after:bg-gradient-to-r after:from-blue-400/80 after:to-purple-400/80 after:opacity-0 
-                              after:transition-opacity after:duration-300 hover:after:opacity-100"
+                className="speaker-card-hover relative w-full max-w-[260px] p-6 pb-4 flex flex-col items-center rounded-2xl overflow-hidden border border-white/10 // Subtle border
+                           transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
+                           hover:-translate-y-2 hover:border-white/30 // White border on hover
+                           after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] 
+                           after:bg-gradient-to-r after:from-white/50 after:to-white/80 after:opacity-0 // Subtle white gradient bar
+                           after:transition-opacity after:duration-300 hover:after:opacity-100"
                 style={{
                   background: "linear-gradient(145deg, #1e1e1e, #262626)",
                   boxShadow:
-                    "0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2)",
-                  animation: "hover:pulse-subtle 2s infinite",
+                    "0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2)", // Base shadow
+                  // Removed inline animation here as it's now handled by CSS class
                 }}
               >
                 <div
                   className="w-32 h-32 rounded-full overflow-hidden mb-5 relative
-                                shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]
-                                before:content-[''] before:absolute before:inset-0 before:rounded-full before:p-[2px]
-                                before:bg-gradient-to-br before:from-blue-400/80 before:to-purple-400/80
-                                before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
-                                before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]"
+                               shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]
+                               before:content-[''] before:absolute before:inset-0 before:rounded-full before:p-[2px]
+                               before:bg-gradient-to-br before:from-white/80 before:to-white/40 // Subtle white-to-light-grey gradient
+                               before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
+                               before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]"
                 >
                   <img
                     src={speaker.image}
@@ -154,7 +157,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
                   <h4
                     className="text-lg mb-2 font-semibold leading-tight"
                     style={{
-                      background: "linear-gradient(to right, #ffffff, #e0e0e0)",
+                      background: "linear-gradient(to right, #ffffff, #e0e0e0)", // White gradient
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                     }}
@@ -164,7 +167,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
                   <p
                     className="text-sm m-0 mb-2 font-semibold tracking-wide"
                     style={{
-                      background: "linear-gradient(to right, #8c93ff, #5e7cff)",
+                      background: "linear-gradient(to right, #8c93ff, #5e7cff)", // Original blue/purple gradient for role
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                     }}
@@ -185,35 +188,39 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
 
       {/* Workshop Convener Section */}
       {hasWorkshopConvener && (
-        <div className="mb-15">
-          <h3 className="text-3xl mb-5 text-white/90 text-center">
+        <div className="mb-16">
+          {" "}
+          {/* Increased margin bottom */}
+          <h3 className="text-3xl mb-8 text-white/90 text-center font-semibold">
+            {" "}
+            {/* Added font-semibold */}
             Workshop Convener
           </h3>
           <div className="flex gap-10 justify-center flex-wrap max-w-4xl mx-auto p-5">
             <div
-              className="speaker-card-hover relative w-full max-w-[260px] p-6 pb-4 flex flex-col items-center rounded-2xl overflow-hidden border border-white/8 
-                            transition-all duration-[0.4s] ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
-                            hover:transform hover:-translate-y-2 hover:border-blue-400/30
-                            after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] 
-                            after:bg-gradient-to-r after:from-blue-400/80 after:to-purple-400/80 after:opacity-0 
-                            after:transition-opacity after:duration-300 hover:after:opacity-100"
+              className="speaker-card-hover relative w-full max-w-[260px] p-6 pb-4 flex flex-col items-center rounded-2xl overflow-hidden border border-white/10 // Subtle border
+                           transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
+                           hover:-translate-y-2 hover:border-white/30 // White border on hover
+                           after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] 
+                           after:bg-gradient-to-r after:from-white/50 after:to-white/80 after:opacity-0 // Subtle white gradient bar
+                           after:transition-opacity after:duration-300 hover:after:opacity-100"
               style={{
                 background: "linear-gradient(145deg, #1e1e1e, #262626)",
                 boxShadow:
-                  "0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2)",
+                  "0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2)", // Base shadow
               }}
             >
               <div
                 className="w-32 h-32 rounded-full overflow-hidden mb-5 relative
-                              shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]
-                              before:content-[''] before:absolute before:inset-0 before:rounded-full before:p-[2px]
-                              before:bg-gradient-to-br before:from-blue-400/80 before:to-purple-400/80
-                              before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
-                              before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]"
+                               shadow-[0_8px_20px_rgba(0,0,0,0.4),0_0_0_4px_rgba(40,40,40,0.8)]
+                               before:content-[''] before:absolute before:inset-0 before:rounded-full before:p-[2px]
+                               before:bg-gradient-to-br before:from-white/80 before:to-white/40 // Subtle white-to-light-grey gradient
+                               before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)]
+                               before:[-webkit-mask-composite:xor] before:[mask-composite:exclude]"
               >
                 <img
-                  src={workshopConvener.image}
-                  alt={workshopConvener.name}
+                  src={workshopConvener?.image} // Use optional chaining
+                  alt={workshopConvener?.name || "Workshop Convener"}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   onError={(e) => {
                     e.currentTarget.src =
@@ -225,24 +232,24 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
                 <h4
                   className="text-lg mb-2 font-semibold leading-tight"
                   style={{
-                    background: "linear-gradient(to right, #ffffff, #e0e0e0)",
+                    background: "linear-gradient(to right, #ffffff, #e0e0e0)", // White gradient
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
                 >
-                  {workshopConvener.name}
+                  {workshopConvener?.name}
                 </h4>
                 <p
                   className="text-sm m-0 mb-2 font-semibold tracking-wide"
                   style={{
-                    background: "linear-gradient(to right, #8c93ff, #5e7cff)",
+                    background: "linear-gradient(to right, #8c93ff, #5e7cff)", // Original blue/purple gradient for role
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
                 >
-                  {workshopConvener.role}
+                  {workshopConvener?.role}
                 </p>
-                {workshopConvener.affiliation && (
+                {workshopConvener?.affiliation && (
                   <p className="text-white/65 text-xs m-0 italic leading-relaxed">
                     {workshopConvener.affiliation}
                   </p>
@@ -255,7 +262,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
 
       {hasSpeakersForGallery && (
         <div className="mb-15">
-          <h3 className="text-3xl mb-5 text-white/90 text-center">
+          <h3 className="text-3xl mb-5 text-white/90 text-center font-semibold">
             Academic & Industry Speakers
           </h3>
 
