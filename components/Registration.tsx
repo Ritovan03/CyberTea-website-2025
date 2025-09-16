@@ -507,33 +507,127 @@ const Registration: React.FC = () => {
             </div>
           </div>
 
-          {/* Certificate Notice */}
-          <div
-            style={{
-              textAlign: "center",
-              padding: "2rem",
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)",
-              borderRadius: "12px",
-              border: "1px solid rgba(255,255,255,0.1)",
-              marginTop: "2rem",
-            }}
-          >
-            <Typography
-              variant="body1"
-              sx={{
-                opacity: 0.9,
-                lineHeight: 1.8,
-                fontSize: "1.1rem",
-                fontWeight: 500,
-                background: "linear-gradient(135deg, #ffffff 0%, #cccccc 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              🎓 Certificates and comprehensive workshop materials will be
-              provided to all registered participants
-            </Typography>
+          {/* Certificate & Benefits Section */}
+          <div className="py-24 px-4">
+            <div className="max-w-5xl mx-auto">
+              {/* Section Header */}
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-zinc-100 tracking-tight">
+                  What You'll Receive
+                </h2>
+                <p className="mt-3 text-zinc-500">
+                  Everything you need to succeed, included with your
+                  registration.
+                </p>
+              </div>
+
+              {/* Features Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Official Certificate */}
+                <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
+                  {/* Subtle glow effect on hover */}
+                  <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+
+                  <div className="relative">
+                    <div className="inline-flex items-center justify-center w-16 h-16 mb-6 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 group-hover:text-cyan-400 transition-colors duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-zinc-100 mb-2">
+                      Official Certificate
+                    </h3>
+                    <p className="text-zinc-400 leading-relaxed">
+                      Digital & physical certificates of participation and
+                      completion.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Workshop Materials */}
+                <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
+                  {/* Subtle glow effect on hover */}
+                  <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+
+                  <div className="relative">
+                    <div className="inline-flex items-center justify-center w-16 h-16 mb-6 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 group-hover:text-cyan-400 transition-colors duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-zinc-100 mb-2">
+                      Workshop Materials
+                    </h3>
+                    <p className="text-zinc-400 leading-relaxed">
+                      Comprehensive guides, code samples, and reference
+                      materials.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Networking Access */}
+                <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
+                  {/* Subtle glow effect on hover */}
+                  <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+
+                  <div className="relative">
+                    <div className="inline-flex items-center justify-center w-16 h-16 mb-6 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 group-hover:text-cyan-400 transition-colors duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-8 w-8"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={1.5}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962a3.75 3.75 0 015.25 0m-5.25 0a3.75 3.75 0 00-5.25 0M15 4.5a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-zinc-100 mb-2">
+                      Networking Access
+                    </h3>
+                    <p className="text-zinc-400 leading-relaxed">
+                      Connect with industry experts and fellow participants.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Note */}
+              <div className="mt-12 text-center">
+                <div className="inline-flex items-center text-sm text-zinc-400 bg-zinc-900/50 border border-zinc-800 rounded-full px-4 py-2">
+                  <span className="mr-2">✨</span>
+                  All materials will be available immediately after registration
+                  confirmation
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
