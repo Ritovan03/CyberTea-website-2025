@@ -123,3 +123,28 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Dark grid background with vignette effect for speaker sections */
+.dark-grid-background {
+  position: relative;
+  background-color: #1a1a1a; /* Match the end color from interactive grid */
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  overflow: hidden; /* To contain the pseudo-element */
+}
+
+/* Adds a soft vignette effect */
+.dark-grid-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, #1a1a1a 95%);
+  pointer-events: none;
+}

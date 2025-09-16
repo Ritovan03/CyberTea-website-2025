@@ -160,26 +160,43 @@ const Registration: React.FC = () => {
   return (
     <div
       style={{
-        backgroundColor: "#000",
+        backgroundColor: "#1a1a1a",
         color: "#fff",
         minHeight: "100vh",
         padding: "3rem 1rem",
       }}
     >
+      {/* Title outside the card */}
+      <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: { xs: "2.5rem", md: "3.5rem" },
+            fontWeight: "bold",
+            background: "linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            marginBottom: "0.5rem",
+          }}
+        >
+          Registration
+        </Typography>
+        <Typography variant="h6" sx={{ color: "#888", fontWeight: "300" }}>
+          Join CyberTea 2025 - International Conference on Cybersecurity
+        </Typography>
+      </div>
+
       <Card
         sx={{
           maxWidth: 950,
           margin: "0 auto",
-          backgroundColor: "#121212",
+          backgroundColor: "#1a1a1a",
           color: "white",
           padding: "2.5rem",
         }}
       >
         <CardContent sx={{ lineHeight: 1.9 }}>
-          <Typography variant="h4" gutterBottom align="center">
-            Registration Details
-          </Typography>
-
           {/* Steps */}
           <div style={{ marginBottom: "3rem" }}>
             <Typography variant="h6" gutterBottom>
@@ -217,7 +234,7 @@ const Registration: React.FC = () => {
             </Typography>
             <TableContainer
               component={Paper}
-              sx={{ background: "#1e1e1e", marginTop: "1rem" }}
+              sx={{ background: "#262626", marginTop: "1rem" }}
             >
               <Table>
                 <TableHead>

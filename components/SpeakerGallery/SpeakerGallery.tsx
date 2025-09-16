@@ -1,5 +1,5 @@
 import React from "react";
-import CircularGallery from "./CircularGallery";
+import SpeakerCarousel from "./SpeakerCarousel";
 import type { Speaker } from "./types.ts";
 import type { SpeakerCategory } from "./types.ts";
 
@@ -92,14 +92,15 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
 
   return (
     <div
-      className="px-5 min-h-screen text-white" // Changed text-black/87 to text-white for overall dark theme
+      className="dark-grid-background px-5 py-20 text-white relative"
       style={{
         background: "#1a1a1a",
+        minHeight: "100vh",
       }}
     >
       {/* Chief Patron Section */}
       {hasChiefPatron && (
-        <div className="mb-16">
+        <div className="mb-16 relative z-10">
           {" "}
           {/* Increased margin bottom */}
           <h3 className="text-3xl mb-8 text-white/90 text-center font-semibold">
@@ -191,7 +192,7 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
 
       {/* Workshop Convener Section */}
       {hasWorkshopConvener && (
-        <div className="mb-16">
+        <div className="mb-16 relative z-10">
           {" "}
           {/* Increased margin bottom */}
           <h3 className="text-3xl mb-8 text-white/90 text-center font-semibold">
@@ -278,18 +279,13 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
       )}
 
       {hasSpeakersForGallery && (
-        <div className="mb-15">
-          <h3 className="text-3xl mb-5 text-white/90 text-center font-semibold">
+        <div className="mb-20 relative z-10">
+          <h3 className="text-4xl mb-12 text-white/90 text-center font-semibold">
             Academic & Industry Speakers
           </h3>
 
-          <div className="w-full mb-5">
-            <CircularGallery
-              items={circularGalleryItems}
-              bend={4}
-              galleryId="gallery-main"
-              scrollSpeed={1.5}
-            />
+          <div className="w-full mb-10">
+            <SpeakerCarousel items={circularGalleryItems} />
           </div>
         </div>
       )}

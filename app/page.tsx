@@ -7,6 +7,7 @@ import FooterComponent from "@/components/FooterComponent";
 import SpeakerGallery from "@/components/SpeakerGallery";
 import EventSchedule from "@/components/EventSchedule";
 import { speakersData } from "../components/data/speakers";
+import Team from "@/components/Team";
 
 export default function SyntheticV0PageForDeployment() {
   return (
@@ -16,6 +17,7 @@ export default function SyntheticV0PageForDeployment() {
       <EventSchedule />
       <SpeakerGallery speakers={speakersData} />
       <Registration />
+      <Team />
       <FooterComponent />
     </>
   );
