@@ -183,7 +183,7 @@ const Registration: React.FC = () => {
           Registration
         </Typography>
         <Typography variant="h6" sx={{ color: "#888", fontWeight: "300" }}>
-          Join CyberTea 2025 - International Conference on Cybersecurity
+          Join CyberTea 2025 - A 5-Day Virtual Workshop on Cybersecurity
         </Typography>
       </div>
 
@@ -417,7 +417,7 @@ const Registration: React.FC = () => {
               align="center"
               sx={{ marginBottom: "2rem" }}
             >
-              Our Sponsors
+              A Huge Thank You to Our Sponsors
             </Typography>
             <div
               style={{
@@ -508,10 +508,10 @@ const Registration: React.FC = () => {
           </div>
 
           {/* Certificate & Benefits Section */}
-          <div className="py-24 px-4">
+          {/* <div className="py-24 px-4">
             <div className="max-w-5xl mx-auto">
               {/* Section Header */}
-              <div className="text-center mb-12">
+          {/* <div className="text-center mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-zinc-100 tracking-tight">
                   What You'll Receive
                 </h2>
@@ -522,11 +522,11 @@ const Registration: React.FC = () => {
               </div>
 
               {/* Features Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {/* Official Certificate */}
-                <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
+          {/* <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
                   {/* Subtle glow effect on hover */}
-                  <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+          {/* <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
 
                   <div className="relative">
                     <div className="inline-flex items-center justify-center w-16 h-16 mb-6 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 group-hover:text-cyan-400 transition-colors duration-300">
@@ -556,9 +556,9 @@ const Registration: React.FC = () => {
                 </div>
 
                 {/* Workshop Materials */}
-                <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
+          {/* <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
                   {/* Subtle glow effect on hover */}
-                  <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+          {/* <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
 
                   <div className="relative">
                     <div className="inline-flex items-center justify-center w-16 h-16 mb-6 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 group-hover:text-cyan-400 transition-colors duration-300">
@@ -588,9 +588,9 @@ const Registration: React.FC = () => {
                 </div>
 
                 {/* Networking Access */}
-                <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
+          {/* <div className="group relative bg-zinc-900 border border-white/10 rounded-xl p-6 text-center transition-all duration-300 hover:border-white/20 hover:bg-zinc-900/80">
                   {/* Subtle glow effect on hover */}
-                  <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+          {/* <div className="absolute -inset-px bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl blur-lg opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
 
                   <div className="relative">
                     <div className="inline-flex items-center justify-center w-16 h-16 mb-6 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-400 group-hover:text-cyan-400 transition-colors duration-300">
@@ -620,7 +620,7 @@ const Registration: React.FC = () => {
               </div>
 
               {/* Footer Note */}
-              <div className="mt-12 text-center">
+          {/* <div className="mt-12 text-center">
                 <div className="inline-flex items-center text-sm text-zinc-400 bg-zinc-900/50 border border-zinc-800 rounded-full px-4 py-2">
                   <span className="mr-2">✨</span>
                   All materials will be available immediately after registration
@@ -628,7 +628,7 @@ const Registration: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </CardContent>
       </Card>
 
