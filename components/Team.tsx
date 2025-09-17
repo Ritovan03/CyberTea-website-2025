@@ -20,40 +20,40 @@ interface TeamMember {
 
 const teamMembers: TeamMember[] = [
   {
-    name: "Dr. Conference Chair",
-    role: "Conference Chair",
+    name: "Vedant Kesarwani",
+    role: "Organizer",
     department: "Computer Science & Engineering",
     image: "/placeholder-user.jpg",
     linkedinUrl: "#",
     githubUrl: "#",
   },
   {
-    name: "Dr. Technical Committee Head",
-    role: "Technical Committee Head",
+    name: "Ritovan Dasgupta",
+    role: "Website Lead",
     department: "Cybersecurity Department",
     image: "/placeholder-user.jpg",
     linkedinUrl: "#",
     githubUrl: "#",
   },
   {
-    name: "Prof. Organizing Committee",
-    role: "Organizing Committee",
+    name: "Pranjal Srivastava",
+    role: "Website Team",
     department: "Information Technology",
     image: "/placeholder-user.jpg",
     linkedinUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/Paraxanos",
   },
   {
-    name: "Dr. Publication Chair",
-    role: "Publication Chair",
+    name: "Mohammed Kamran Ahmed",
+    role: "Website Team",
     department: "Computer Applications",
     image: "/placeholder-user.jpg",
-    linkedinUrl: "#",
+    linkedinUrl: "https://www.linkedin.com/in/mohammed-kamran-ahmed/",
     githubUrl: "#",
   },
   {
-    name: "Dr. Finance Committee",
-    role: "Finance Committee",
+    name: "Hussam Ahmed",
+    role: "Website Team",
     department: "Administration",
     image: "/placeholder-user.jpg",
     linkedinUrl: "#",
@@ -103,7 +103,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         <p className="text-base font-medium text-white/70 mb-2">
           {member.role}
         </p>
-        <p className="text-sm text-white/50 italic">{member.department}</p>
+        {/* <p className="text-sm text-white/50 italic">{member.department}</p> */}
 
         {/* Social Links */}
         <div className="absolute bottom-4 right-4 flex space-x-2">

@@ -8,7 +8,8 @@ export const speakersData: Speaker[] = [
     affiliation: "IIIT Sri City",
     image: "/Speakers/director.jpeg",
     category: "chief-patron",
-    linkedinUrl: "https://linkedin.com/in/mahadeva-prasanna",
+    linkedinUrl:
+      "https://www.linkedin.com/in/prof-mahadeva-prasanna-1b238b1a4/",
   },
   // Workshop Conveners
   {
@@ -17,7 +18,7 @@ export const speakersData: Speaker[] = [
     affiliation: "IIIT Sri City",
     image: "/Speakers/neha_maam.jpeg",
     category: "workshop-conveners",
-    linkedinUrl: "https://linkedin.com/in/neha-agrawal",
+    linkedinUrl: "https://www.linkedin.com/in/dr-neha-agrawal-0a32776b/",
   },
   // Speakers
   {
