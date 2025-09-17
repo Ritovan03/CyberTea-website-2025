@@ -1,6 +1,6 @@
 export interface Speaker {
   name: string;
-  role: string;
+  role?: string;
   affiliation?: string;
   image: string;
   category: string;

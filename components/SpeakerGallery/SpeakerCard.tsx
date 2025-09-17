@@ -41,12 +41,14 @@ export const SpeakerCard: React.FC<SpeakerCardProps> = ({ speaker }) => {
         <h4 className="text-lg font-semibold text-white/95 leading-tight mb-3">
           {speaker.name}
         </h4>
-        <p className="text-base font-medium text-white/70 mb-2">
-          {speaker.role}
-        </p>
+        {speaker.role && (
+          <p className="text-base font-medium text-white/70 mb-2">
+            {speaker.role}
+          </p>
+        )}
         <p className="text-sm text-white/50 italic">{speaker.affiliation}</p>
 
-        {speaker.linkedinUrl && (
+        {speaker.linkedinUrl && speaker.linkedinUrl.trim() !== "" && (
           <a
             href={speaker.linkedinUrl}
             target="_blank"
