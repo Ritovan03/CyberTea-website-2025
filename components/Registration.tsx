@@ -336,7 +336,7 @@ const Registration: React.FC = () => {
                         <IconButton
                           size="small"
                           onClick={() =>
-                            handleCopy("110167505687", "Account Number")
+                            handleCopy("110167506587", "Account Number")
                           }
                           sx={{
                             color: "rgba(255,255,255,0.6)",
@@ -365,7 +365,7 @@ const Registration: React.FC = () => {
                       <Tooltip title="Copy IFSC Code">
                         <IconButton
                           size="small"
-                          onClick={() => handleCopy("CNRB0013427", "IFSC Code")}
+                          onClick={() => handleCopy("CNRB0013247", "IFSC Code")}
                           sx={{
                             color: "rgba(255,255,255,0.6)",
                             padding: "4px",
