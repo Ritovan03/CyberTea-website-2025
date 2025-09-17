@@ -319,8 +319,8 @@ const Registration: React.FC = () => {
                 />
                 <div style={{ lineHeight: 2 }}>
                   <p>
-                    <b>Name of Beneficiary:</b> IIIT Sri City Chittoor – Opex
-                    Account
+                    <b>Name of Beneficiary:</b> IIIT SRI CITY CHITTOOR OPEX
+                    ACCOUNT
                   </p>
                   <p>
                     <b>Account Number:</b>{" "}
@@ -399,11 +399,11 @@ const Registration: React.FC = () => {
             <Typography>
               Please use SWIFT/International transfer methods. Contact{" "}
               <a
-                href="mailto:neha@iiits.in"
+                href="mailto:neha.a@iiits.in"
                 className="clickable"
                 style={{ color: "#4dabf7" }}
               >
-                neha@iiits.in
+                neha.a@iiits.in
               </a>{" "}
               for assistance.
             </Typography>
