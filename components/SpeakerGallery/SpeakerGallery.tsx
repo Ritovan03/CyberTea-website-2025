@@ -98,6 +98,92 @@ const SpeakerGallery: React.FC<SpeakerGalleryProps> = ({ speakers }) => {
         minHeight: "100vh",
       }}
     >
+      {/* Organized By Section */}
+      <div className="mt-20 mb-16 relative z-10">
+        <h3 className="text-4xl mb-12 text-white/90 text-center font-semibold">
+          Organized By
+        </h3>
+        <div className="flex gap-10 justify-center items-center flex-wrap max-w-4xl mx-auto p-5">
+          {/* IIIT Sri City Card */}
+          <div
+            className="speaker-card-hover relative w-full max-w-[300px] p-8 flex flex-col items-center rounded-2xl overflow-hidden border border-white/10
+                       transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
+                       hover:-translate-y-2 hover:border-white/30
+                       after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] 
+                       after:bg-gradient-to-r after:from-white/50 after:to-white/80 after:opacity-0
+                       after:transition-opacity after:duration-300 hover:after:opacity-100"
+            style={{
+              background: "linear-gradient(145deg, #1e1e1e, #262626)",
+              boxShadow:
+                "0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div className="w-40 h-40 flex items-center justify-center mb-6 rounded-2xl bg-white/5 p-4">
+              <img
+                src="/iiit.png"
+                alt="IIIT Sri City"
+                className="w-full h-full object-contain transition-transform duration-500 hover:scale-110"
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://via.placeholder.com/300x300?text=IIIT+Logo";
+                }}
+              />
+            </div>
+            <div className="text-center w-full">
+              <h4
+                className="text-xl mb-2 font-semibold leading-tight"
+                style={{
+                  background: "linear-gradient(to right, #ffffff, #e0e0e0)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                IIIT Sri City
+              </h4>
+            </div>
+          </div>
+
+          {/* CyberTea Card */}
+          <div
+            className="speaker-card-hover relative w-full max-w-[300px] p-8 flex flex-col items-center rounded-2xl overflow-hidden border border-white/10
+                       transition-all duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]
+                       hover:-translate-y-2 hover:border-white/30
+                       after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[3px] 
+                       after:bg-gradient-to-r after:from-white/50 after:to-white/80 after:opacity-0
+                       after:transition-opacity after:duration-300 hover:after:opacity-100"
+            style={{
+              background: "linear-gradient(145deg, #1e1e1e, #262626)",
+              boxShadow:
+                "0 15px 35px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.2)",
+            }}
+          >
+            <div className="w-40 h-40 flex items-center justify-center mb-6 rounded-2xl bg-white/5 p-4">
+              <img
+                src="/CyberTea_logo.png"
+                alt="CyberTea"
+                className="w-full h-full object-contain transition-transform duration-500 hover:scale-110"
+                onError={(e) => {
+                  e.currentTarget.src =
+                    "https://via.placeholder.com/300x300?text=CyberTea+Logo";
+                }}
+              />
+            </div>
+            <div className="text-center w-full">
+              <h4
+                className="text-xl mb-2 font-semibold leading-tight"
+                style={{
+                  background: "linear-gradient(to right, #ffffff, #e0e0e0)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                CyberTEA
+              </h4>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Chief Patron Section */}
       {hasChiefPatron && (
         <div className="mb-16 relative z-10">

@@ -183,7 +183,7 @@ const Registration: React.FC = () => {
           Registration
         </Typography>
         <Typography variant="h6" sx={{ color: "#888", fontWeight: "300" }}>
-          Join CyberTea 2025 - A 5-Day Virtual Workshop on Cybersecurity
+          Join CyberTEA 2025 - A 5-Day Virtual Workshop on Cybersecurity
         </Typography>
       </div>
 
