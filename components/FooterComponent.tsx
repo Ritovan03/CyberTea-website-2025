@@ -11,21 +11,14 @@ const FooterComponent: React.FC = () => {
         </p>
         <div className="footer-social">
           <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaTwitter />
-          </a>
-          <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/dr-neha-agrawal-0a32776b/"
             target="_blank"
             rel="noopener noreferrer"
           >
             <FaLinkedin />
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/Ritovan03/CyberTea-website-2025"
             target="_blank"
             rel="noopener noreferrer"
           >
